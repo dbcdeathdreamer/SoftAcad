@@ -1,3 +1,9 @@
+<?php
+session_start();
+require_once('connection.php');
+require_once('function.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,8 +70,12 @@
                             <li class="dropdown-menu-title">
                                 <span>Account Settings</span>
                             </li>
-                            <li><a href="#"><i class="halflings-icon user"></i> Profile</a></li>
-                            <li><a href="login.html"><i class="halflings-icon off"></i> Logout</a></li>
+                            <?php if(!loggedIn()): ?>
+                                <li><a href="login.php"><i class="halflings-icon off"></i>Login</a></li>
+                            <?php else: ?>
+                                <li><a href="#"><i class="halflings-icon user"></i> Profile</a></li>
+                                <li><a href="logout.php"><i class="halflings-icon off"></i> Logout</a></li>
+                            <?php endif; ?>
                         </ul>
                     </li>
                     <!-- end: User Dropdown -->

@@ -1,9 +1,15 @@
 <?php
 require_once('common/header.php');
-require_once('common/sidebar.php')
+
+if (!loggedIn()) {
+	header('Location: login.php');
+}
+
+require_once('common/sidebar.php');
+
 ?>
 
-			
+
 			<!-- start: Content -->
 			<div id="content" class="span10">
 			
