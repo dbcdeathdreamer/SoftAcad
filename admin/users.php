@@ -43,7 +43,15 @@ require_once('common/sidebar.php');
                             <td class="center"><?php echo $user['email']; ?></td>
                             <td class="center"><?php echo $user['description']; ?></td>
                             <td class="center">
-                                <span class="label label-success">Active</span>
+                                <a class="btn btn-success" href="#">
+                                    <i class="halflings-icon white zoom-in"></i>
+                                </a>
+                                <a class="btn btn-info" href="#">
+                                    <i class="halflings-icon white edit"></i>
+                                </a>
+                                <a class="btn btn-danger" href="#">
+                                    <i class="halflings-icon white trash"></i>
+                                </a>
                             </td>
                         </tr>
                    <?php endforeach; ?>
