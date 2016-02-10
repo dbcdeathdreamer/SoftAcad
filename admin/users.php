@@ -28,7 +28,14 @@ require_once('common/sidebar.php');
                 </div>
             </div>
             <div class="box-content">
-                <button class="btn btn-large btn-success pull-right">Create new user</button>
+                <?php
+                if (isset($_SESSION['flashMessage'])) {
+                   echo $_SESSION['flashMessage'];
+                   unset($_SESSION['flashMessage']);
+               }
+                ?>
+
+                <a href="addUser.php" class="btn btn-large btn-success pull-right">Create new user</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>

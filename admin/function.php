@@ -24,15 +24,28 @@ function getAllUsers() {
 function createNewUser($insertData) {
     global $connection;
 
+    $password = sha1($insertData['password']);
+
     $result = mysqli_query($connection, "
         INSERT INTO users
         SET
         username = '{$insertData['username']}',
-        password = '{$insertData['password']}',
+        password = '{$password}',
         email = '{$insertData['email']}',
         description = '{$insertData['description']}';
-");
+    ");
 
+}
+
+function validateUserInput($input)
+{
+    $errors = array();
+
+    if(!isset($input['username']) || strlen(trim($input['username'])) < 3 || strlen(trim($input['username'])) > 255) {
+        $errors['username'] = 'Incorrect username';
+    }
+
+    return $errors;
 }
 
 
