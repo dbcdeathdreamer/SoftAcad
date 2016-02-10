@@ -49,4 +49,41 @@ function validateUserInput($input)
 }
 
 
+function getUserById($id)
+{
+    global $connection;
+
+    $result = mysqli_query($connection, "
+        SELECT * FROM users WHERE id = {$id}
+    ");
+
+    $array = mysqli_fetch_assoc($result);
+
+    return $array;
+}
+
+function editUser($id, $insertData)
+{
+    global $connection;
+
+    $result = mysqli_query($connection, "
+        UPDATE users
+        SET
+        username = '{$insertData['username']}',
+        email = '{$insertData['email']}',
+        description = '{$insertData['description']}'
+        WHERE id = {$id}
+    ");
+}
+
+function deleteUser($id)
+{
+    global $connection;
+
+    $result = mysqli_query($connection, "
+       DELETE FROM `users` WHERE `id`= {$id}
+    ");
+
+}
+
 ?>

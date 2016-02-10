@@ -55,8 +55,6 @@ if(isset($_POST['createUser'])) {
 
 
         <form action="" method="post">
-
-
             <div class="control-group <?php echo (array_key_exists('username', $errors))? 'error' : ''; ?>">
                 <label class="control-label" for="inputError">Username</label>
                 <div class="controls">

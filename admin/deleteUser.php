@@ -5,27 +5,18 @@ if (!loggedIn()) {
     header('Location: login.php');
 }
 
-require_once('common/sidebar.php');
+if(!isset($_GET['id'])) {
+    header('Location: users.php');
+}
+
+$user = getUserById($_GET['id']);
+
+if(is_null($user)) {
+    header('Location: users.php');
+}
+
+deleteUser($user['id']);
+header('Location: users.php');
 
 ?>
 
-    <!-- start: Content -->
-    <div id="content" class="span10">
-
-
-        <ul class="breadcrumb">
-            <li>
-                <i class="icon-home"></i>
-                <a href="index.php">Home</a>
-                <i class="icon-angle-right"></i>
-            </li>
-            <li><a href="#">Dashboard</a></li>
-        </ul>
-
-
-    </div>
-
-
-<?php
-require_once('common/footer.php');
-?>

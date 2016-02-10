@@ -52,10 +52,10 @@ require_once('common/sidebar.php');
                             <td class="center"><?php echo $user['description']; ?></td>
                             <td class="center">
 
-                                <a class="btn btn-info" href="#">
+                                <a class="btn btn-info" href="editUser.php?id=<?php echo $user['id']; ?>">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
-                                <a class="btn btn-danger" href="#">
+                                <a class="btn btn-danger" href="deleteUser.php?id=<?php echo $user['id']; ?>">
                                     <i class="halflings-icon white trash"></i>
                                 </a>
                             </td>
