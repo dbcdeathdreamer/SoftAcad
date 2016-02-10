@@ -56,11 +56,11 @@ require_once('connection.php');
 <?php
 $errors = array();
    if (isset($_POST['username']) && isset($_POST['password']) && strlen($_POST['username']) > 3 && strlen($_POST['password']) >3) {
-       
+       $password = sha1($_POST['password']);
        $sql = "
             SELECT * FROM users
             WHERE username = '{$_POST['username']}'
-            AND password = '{$_POST['password']}'
+            AND password = '{$password}'
             LIMIT 1;
        ";
 

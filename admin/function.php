@@ -21,4 +21,19 @@ function getAllUsers() {
 }
 
 
+function createNewUser($insertData) {
+    global $connection;
+
+    $result = mysqli_query($connection, "
+        INSERT INTO users
+        SET
+        username = '{$insertData['username']}',
+        password = '{$insertData['password']}',
+        email = '{$insertData['email']}',
+        description = '{$insertData['description']}';
+");
+
+}
+
+
 ?>
