@@ -86,4 +86,25 @@ function deleteUser($id)
 
 }
 
+function getToursWithCategories()
+{
+    global $connection;
+
+    $result = mysqli_query($connection, "
+        SELECT
+            t.image ,t.id as tours_id, t.description as tour_description,  t.name as tour_name,
+            c.name as category_name, c.description, c.id
+            FROM tours as t
+            LEFT JOIN categories as c ON c.id = t.category_id
+    ");
+
+
+    $array = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $array[] = $row;
+    }
+
+    return $array;
+}
+
 ?>

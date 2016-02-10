@@ -16,7 +16,10 @@ require_once('common/sidebar.php');
         <li><a href="#">Dashboard</a></li>
     </ul>
 
+<?php
+$tours = getToursWithCategories();
 
+?>
     <div class="row-fluid sortable">
         <div class="box span12">
             <div class="box-header">
@@ -32,25 +35,27 @@ require_once('common/sidebar.php');
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Email</th>
+                        <th>Name</th>
                         <th>Description</th>
+                        <th>Category</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>test</td>
-                        <td class="center">test</td>
-                        <td class="center">test</td>
-                        <td class="center">
-                            <a class="btn btn-info" href="#">
-                                <i class="halflings-icon white edit"></i>
-                            </a>
-                            <a class="btn btn-danger" href="#">
-                                <i class="halflings-icon white trash"></i>
-                            </a>
-                        </td>
-                    </tr>
+                    <?php foreach($tours as $tour): ?>
+                        <tr>
+                            <td><?php echo $tour['tour_name']; ?></td>
+                            <td class="center"><?php echo $tour['tour_description']; ?></td>
+                            <td class="center"><?php echo $tour['category_name']; ?></td>
+                            <td class="center">
+                                <a class="btn btn-info" href="#">
+                                    <i class="halflings-icon white edit"></i>
+                                </a>
+                                <a class="btn btn-danger" href="#">
+                                    <i class="halflings-icon white trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
                 <div class="pagination pagination-centered">
