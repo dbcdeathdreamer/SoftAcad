@@ -3,6 +3,11 @@ require_once('common/header.php');
 if (!loggedIn()) {
     header('Location: login.php');
 }
+
+$categories = $db->get('categories');
+
+
+
 require_once('common/sidebar.php');
 ?>
 <!-- start: Content -->
@@ -37,18 +42,20 @@ require_once('common/sidebar.php');
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>test</td>
-                        <td class="center">test</td>
-                        <td class="center">
-                            <a class="btn btn-info" href="#">
-                                <i class="halflings-icon white edit"></i>
-                            </a>
-                            <a class="btn btn-danger" href="#">
-                                <i class="halflings-icon white trash"></i>
-                            </a>
-                        </td>
-                    </tr>
+                    <?php foreach($categories as $category): ?>
+                        <tr>
+                            <td><?php echo $category['name']; ?></td>
+                            <td class="center"><?php echo $category['description']; ?></td>
+                            <td class="center">
+                                <a class="btn btn-info" href="editCategory.php?id=<?php echo $category['id']; ?>">
+                                    <i class="halflings-icon white edit"></i>
+                                </a>
+                                <a class="btn btn-danger" href="deleteCategory.php?id=<?php echo $category['id']; ?>">
+                                    <i class="halflings-icon white trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
                 <div class="pagination pagination-centered">

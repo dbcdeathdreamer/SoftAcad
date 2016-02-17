@@ -53,25 +53,32 @@ class DB {
     public function create($table, $dataInput)
     {
         $sql="INSERT INTO {$table} SET ";
+
+
+        $numItems = count($dataInput);
+        $i = 0;
         foreach ($dataInput as $key => $value) {
-            if($value != end($dataInput)){
-                $sql.="{$key}='{$value}', ";
-            }else{
+            if (++$i == $numItems) {
                 $sql.="{$key}='{$value}' ";
+            } else {
+                $sql.="{$key}='{$value}', ";
             }
         }
-        mysqli_query($this->connection,$sql);
+
+        mysqli_query($this->connection, $sql);
     }
 
 
     public function update($table, $id, $dataInput)
     {
         $sql =  "UPDATE {$table} SET ";
+        $numItems = count($dataInput);
+        $i = 0;
         foreach ($dataInput as $key => $value) {
-            if ($value != end($datainput)) {
-                $sql .= "{$key} = '{$value}' ,";
+            if (++$i == $numItems) {
+                $sql.="{$key}='{$value}' ";
             } else {
-                $sql .= "{$key} = '{$value}' ";
+                $sql.="{$key}='{$value}', ";
             }
         }
         $sql .= "WHERE id = {$id}";

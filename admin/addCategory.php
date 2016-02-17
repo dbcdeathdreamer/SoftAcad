@@ -5,7 +5,6 @@ if (!loggedIn()) {
     header('Location: login.php');
 }
 
-require_once('common/sidebar.php');
 
 ?>
 <?php
@@ -15,7 +14,31 @@ $insertInfo = array(
 );
 $errors = array();
 
+if (isset($_POST['createCategory'])) {
+    if (!isset($_POST['name']) || strlen($_POST['name']) < 3 || strlen($_POST['name']) > 255) {
+        $errors['name'] = 'Incorrect name';
+    }
+
+    if (!isset($_POST['description']) || strlen($_POST['description']) < 3 || strlen($_POST['description']) > 255) {
+        $errors['description'] = 'Incorrect description';
+    }
+
+    if (empty($errors)) {
+        $insertInfo['name'] = $_POST['name'];
+        $insertInfo['description'] = $_POST['description'];
+
+        $table = 'categories';
+
+        $db->create($table, $insertInfo);
+
+        header('Location: categories.php');
+    }
+
+}
+
+require_once('common/sidebar.php');
 ?>
+
     <!-- start: Content -->
     <div id="content" class="span10">
 
@@ -50,7 +73,7 @@ $errors = array();
                     </div>
                 </div>
                 <div class="form-actions">
-                    <input type="submit" name="createUser" value="Add Category" class="btn btn-primary"/>
+                    <input type="submit" name="createCategory" value="Add Category" class="btn btn-primary"/>
                 </div>
             </fieldset>
         </form>

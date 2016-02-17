@@ -17,7 +17,7 @@ require_once('common/sidebar.php');
     </ul>
 
 <?php
-$tours = getToursWithCategories();
+$tours = $db->get('tours');
 
 ?>
     <div class="row-fluid sortable">
@@ -43,9 +43,10 @@ $tours = getToursWithCategories();
                     <tbody>
                     <?php foreach($tours as $tour): ?>
                         <tr>
-                            <td><?php echo $tour['tour_name']; ?></td>
-                            <td class="center"><?php echo $tour['tour_description']; ?></td>
-                            <td class="center"><?php echo $tour['category_name']; ?></td>
+                            <td><?php echo $tour['name']; ?></td>
+                            <td class="center"><?php echo $tour['description']; ?></td>
+                            <td class="center"><?php echo $tour['category_id']; ?></td>
+                            <td class="center"><img width="100" height="100" src="uploads/tours/<?php echo $tour['image']; ?>" alt=""></td>
                             <td class="center">
                                 <a class="btn btn-info" href="#">
                                     <i class="halflings-icon white edit"></i>

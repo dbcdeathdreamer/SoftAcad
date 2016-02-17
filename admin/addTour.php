@@ -5,10 +5,13 @@ if (!loggedIn()) {
     header('Location: login.php');
 }
 
-require_once('common/sidebar.php');
+
 
 ?>
 <?php
+
+$categories = $db->get('categories');
+
 $insertInfo = array(
     'name' => '',
     'image' => '',
@@ -18,6 +21,44 @@ $insertInfo = array(
 );
 $errors = array();
 
+if (isset($_POST['createTour'])) {
+    $imageErrors = array();
+    if (isset($_FILES['image'])) {
+        $fileName = $_FILES['image']['name'];
+        $fileSize = $_FILES['image']['size'];
+        $fileTmp  = $_FILES['image']['tmp_name'];
+        $fileType = $_FILES['image']['type'];
+        $fileExtention = strtolower(end(explode('.', $fileName)));
+        $allowExtentions = array('jpg','jpeg', 'png', 'gif');
+
+        if (!in_array($fileExtention, $allowExtentions)) {
+            $imageErrors = 'Wrong extention';
+        }
+
+        if ($fileSize > 1024000) {
+            $imageErrors = 'Your file is bigger than 1mb';
+        }
+
+    }
+
+    $imageName = (isset($fileName)) ? $fileName : '';
+    $newName = sha1(time()).'.'.$fileExtention;
+    $insertInfo = array(
+        'name' => $_POST['name'],
+        'image' => $newName,
+        'category_id' => $_POST['categories'],
+        'description' => $_POST['description'],
+
+    );
+
+
+    if (empty($imageErrors) && empty($errors)) {
+        $db->create('tours', $insertInfo);
+        move_uploaded_file($fileTmp, 'uploads/tours/'.$newName);
+        header("Location: tours.php");
+    }
+}
+require_once('common/sidebar.php');
 ?>
     <!-- start: Content -->
     <div id="content" class="span10">
@@ -32,7 +73,7 @@ $errors = array();
             <li><a href="#">Dashboard</a></li>
         </ul>
 
-        <form action="" method="post"  class="form-horizontal">
+        <form action="addTour.php" method="post"   class="form-horizontal" enctype="multipart/form-data">
             <fieldset>
                 <div class="control-group <?php echo (array_key_exists('name', $errors))? 'error' : ''; ?>">
                     <label class="control-label" for="inputError">Name</label>
@@ -46,29 +87,29 @@ $errors = array();
                 <div class="control-group">
                     <label class="control-label" for="selectError3">Category</label>
                     <div class="controls">
-                        <select id="selectError3">
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                            <option>Option 3</option>
-                            <option>Option 4</option>
-                            <option>Option 5</option>
+                        <select id="selectError3" name="categories">
+                            <?php foreach($categories as $category): ?>
+                                <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
+                            <?php endforeach; ?>
+                           
                         </select>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="fileInput">File input</label>
                     <div class="controls">
-                        <input class="input-file uniform_on" id="fileInput" type="file">
+                        <input class="input-file uniform_on" id="fileInput" name="image" type="file">
+
                     </div>
                 </div>
                 <div class="control-group hidden-phone">
                     <label class="control-label" for="textarea2">Description</label>
                     <div class="controls">
-                        <textarea class="cleditor" id="textarea2" rows="3"></textarea>
+                        <textarea name="description" class="cleditor" id="textarea2" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="form-actions">
-                    <input type="submit" name="createUser" value="Add Tour" class="btn btn-primary"/>
+                    <input type="submit" name="createTour" value="Add Tour" class="btn btn-primary"/>
                 </div>
             </fieldset>
         </form>

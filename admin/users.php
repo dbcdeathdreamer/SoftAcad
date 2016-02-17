@@ -45,7 +45,11 @@ require_once('common/sidebar.php');
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach(getAllUsers() as $user): ?>
+                    <?php
+
+                    $table = 'users';
+                    $users = $db->get($table);
+                    foreach($users as $user): ?>
                         <tr>
                             <td><?php echo $user['username']; ?></td>
                             <td class="center"><?php echo $user['email']; ?></td>
