@@ -11,7 +11,10 @@ require_once('common/sidebar.php');
 <?php
 $insertInfo = array(
     'name' => '',
+    'image' => '',
+    'category_id' => '',
     'description' => '',
+
 );
 $errors = array();
 
@@ -40,17 +43,32 @@ $errors = array();
                         <?php  endif; ?>
                     </div>
                 </div>
-                <div class="control-group <?php echo (array_key_exists('description', $errors))? 'error' : ''; ?>">
-                    <label class="control-label" for="inputError">Description</label>
+                <div class="control-group">
+                    <label class="control-label" for="selectError3">Category</label>
                     <div class="controls">
-                        <input type="text" id="inputError" name="description" value="<?php echo $insertInfo['description']; ?>">
-                        <?php if (array_key_exists('description', $errors)): ?>
-                            <span class="help-inline"><?php echo $errors['description']; ?></span>
-                        <?php  endif; ?>
+                        <select id="selectError3">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                            <option>Option 4</option>
+                            <option>Option 5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="fileInput">File input</label>
+                    <div class="controls">
+                        <input class="input-file uniform_on" id="fileInput" type="file">
+                    </div>
+                </div>
+                <div class="control-group hidden-phone">
+                    <label class="control-label" for="textarea2">Description</label>
+                    <div class="controls">
+                        <textarea class="cleditor" id="textarea2" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="form-actions">
-                    <input type="submit" name="createUser" value="Add Category" class="btn btn-primary"/>
+                    <input type="submit" name="createUser" value="Add Tour" class="btn btn-primary"/>
                 </div>
             </fieldset>
         </form>

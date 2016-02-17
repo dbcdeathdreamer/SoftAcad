@@ -63,7 +63,8 @@ require_once('common/sidebar.php');
         </ul>
 
 
-        <form action="" method="post">
+        <form action="" method="post"  class="form-horizontal">
+            <fieldset>
             <div class="control-group <?php echo (array_key_exists('username', $errors))? 'error' : ''; ?>">
                 <label class="control-label" for="inputError">Username</label>
                 <div class="controls">
@@ -100,7 +101,10 @@ require_once('common/sidebar.php');
                     <?php  endif; ?>
                 </div>
             </div>
-            <input type="submit" name="editUser" />
+                <div class="form-actions">
+                    <input type="submit" name="createUser" value="Add User" class="btn btn-primary"/>
+                </div>
+            </fieldset>
         </form>
 
 

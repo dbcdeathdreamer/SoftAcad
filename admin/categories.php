@@ -28,19 +28,17 @@ require_once('common/sidebar.php');
                 </div>
             </div>
             <div class="box-content">
-                <button class="btn btn-large btn-success pull-right">Create category</button>
+                <a href="addCategory.php" class="btn btn-large btn-success pull-right">Create category</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Email</th>
+                        <th>Name</th>
                         <th>Description</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>test</td>
-                        <td class="center">test</td>
                         <td class="center">test</td>
                         <td class="center">
                             <a class="btn btn-info" href="#">

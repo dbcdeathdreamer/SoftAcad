@@ -28,7 +28,7 @@ require_once('common/sidebar.php');
                 </div>
             </div>
             <div class="box-content">
-                <button class="btn btn-large btn-success pull-right">Create blog post</button>
+                <a href="addBlogPost.php" class="btn btn-large btn-success pull-right">Create blog post</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>

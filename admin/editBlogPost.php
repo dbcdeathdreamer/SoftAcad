@@ -11,7 +11,9 @@ require_once('common/sidebar.php');
 <?php
 $insertInfo = array(
     'name' => '',
+    'image' => '',
     'description' => '',
+
 );
 $errors = array();
 
@@ -43,14 +45,21 @@ $errors = array();
                 <div class="control-group <?php echo (array_key_exists('description', $errors))? 'error' : ''; ?>">
                     <label class="control-label" for="inputError">Description</label>
                     <div class="controls">
-                        <input type="text" id="inputError" name="description" value="<?php echo $insertInfo['description']; ?>">
+                        <input type="text" id="inputError" name="description" value="">
                         <?php if (array_key_exists('description', $errors)): ?>
                             <span class="help-inline"><?php echo $errors['description']; ?></span>
                         <?php  endif; ?>
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label" for="fileInput">File input</label>
+                    <div class="controls">
+                        <input class="input-file uniform_on" id="fileInput" type="file">
+                    </div>
+                </div>
+
                 <div class="form-actions">
-                    <input type="submit" name="createUser" value="Add Category" class="btn btn-primary"/>
+                    <input type="submit" name="createUser" value="Edit " class="btn btn-primary"/>
                 </div>
             </fieldset>
         </form>

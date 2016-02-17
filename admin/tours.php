@@ -31,7 +31,7 @@ $tours = getToursWithCategories();
                 </div>
             </div>
             <div class="box-content">
-                <button class="btn btn-large btn-success pull-right">Create tour</button>
+                <a href="addTour.php" class="btn btn-large btn-success pull-right">Create tour</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
