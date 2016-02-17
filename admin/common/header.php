@@ -1,8 +1,11 @@
 <?php
 session_start();
 header('Content-Type: text/html; charset=utf-8');
-require_once('connection.php');
+require_once('DB.php');
 require_once('function.php');
+
+$db = new DB();
+
 ?>
 
 <!DOCTYPE html>

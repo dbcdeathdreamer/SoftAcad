@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once('connection.php');
+require_once('common/DB.php');
+$db = new DB();
 
 ?>
 
@@ -57,21 +58,16 @@ require_once('connection.php');
 $errors = array();
    if (isset($_POST['username']) && isset($_POST['password']) && strlen($_POST['username']) > 3 && strlen($_POST['password']) >3) {
        $password = sha1($_POST['password']);
-       $sql = "
-            SELECT * FROM users
-            WHERE username = '{$_POST['username']}'
-            AND password = '{$password}'
-            LIMIT 1;
-       ";
 
-       $result = mysqli_query($connection, $sql);
-       $row = mysqli_fetch_assoc($result);
-
-       if (isset($row)) {
-            unset($row['password']);
-            $_SESSION['user'] = $row;
-            $_SESSION['logged_in'] = 1;
-            header('Location: index.php');
+       $table = 'users';
+       $username = htmlspecialchars(trim($_POST['username']));
+       $where = "username = '{$username}'";
+       $result = $db->get($table, $where);
+       if($result != null  && $result[0]['password'] == $password) {
+           unset($result[0]['password']);
+           $_SESSION['user'] = $result[0];
+           $_SESSION['logged_in'] = 1;
+           header('Location: index.php');
        } else {
            $errors['login'] = 'Wrong credentials';
        }
@@ -79,7 +75,6 @@ $errors = array();
    }
 
 ?>
-
 
 <div class="container-fluid-full">
     <div class="row-fluid">

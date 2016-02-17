@@ -2,7 +2,7 @@
 
 class DB {
 
-    const DB_HOST = '127.0.0.1';
+    const DB_HOST = '127.0.0.1:3307';
     const DB_USERNAME = 'root';
     const DB_PASSWORD = '';
     const DB_NAME     = 'softacad';
@@ -11,25 +11,29 @@ class DB {
 
     public function __construct()
     {
-        $connection = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD);
-        mysqli_select_db($connection, DB_NAME);
+        $connection = mysqli_connect(self::DB_HOST, self::DB_USERNAME, self::DB_PASSWORD);
+        mysqli_select_db($connection, self::DB_NAME);
         $this->connection = $connection;
     }
 
     public function get($table, $where = null, $limit = -1)
     {
-        $sql =  "SELECT * FROM { $table }";
+        $sql =  "SELECT * FROM {$table}";
 
         if ($where != null) {
             // users.id = 4;
-            $sql .= "WHERE { $where }";
+            $sql .= " WHERE {$where} ";
         }
 
         if ($limit > -1) {
-            $sql .= "LIMIT {$limit}";
+            $sql .= " LIMIT {$limit} ";
         }
 
         $result = mysqli_query($this->connection, $sql);
+
+        if (!$result) {
+           echo $this->showErrors();
+        }
 
         $arrayResults = array();
 
@@ -40,6 +44,11 @@ class DB {
         return $arrayResults;
     }
 
+    private function showErrors() {
+        $error = mysqli_error($this->connection);
+
+        return $error;
+    }
 
     public function create($table, $dataInput)
     {
@@ -55,14 +64,26 @@ class DB {
     }
 
 
-    public function update()
+    public function update($table, $id, $dataInput)
     {
+        $sql =  "UPDATE {$table} SET ";
+        foreach ($dataInput as $key => $value) {
+            if ($value != end($datainput)) {
+                $sql .= "{$key} = '{$value}' ,";
+            } else {
+                $sql .= "{$key} = '{$value}' ";
+            }
+        }
+        $sql .= "WHERE id = {$id}";
 
+        mysqli_query($this->connection, $sql);
     }
 
-    public function delete()
+    public function delete($table, $id)
     {
+        $sql = "DELETE {$table} WHERE id = {$id}";
 
+        mysqli_query($this->connection, $sql);
     }
 
 
