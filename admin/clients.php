@@ -16,10 +16,7 @@ require_once('common/sidebar.php');
         <li><a href="#">Dashboard</a></li>
     </ul>
 
-<?php
-$tours = $db->get('tours');
 
-?>
     <div class="row-fluid sortable">
         <div class="box span12">
             <div class="box-header">
@@ -31,30 +28,37 @@ $tours = $db->get('tours');
                 </div>
             </div>
             <div class="box-content">
-                <a href="addTour.php" class="btn btn-large btn-success pull-right">Create tour</a>
+                <?php
+                if (isset($_SESSION['flashMessage'])) {
+                    echo $_SESSION['flashMessage'];
+                    unset($_SESSION['flashMessage']);
+                }
+                ?>
+
+                <a href="addClient.php" class="btn btn-large btn-success pull-right">Create new client</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
                         <th>Description</th>
-                        <th>Category</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($tours as $tour): ?>
+                    <?php
+
+                    $table = 'clients';
+                    $users = $db->get($table);
+                    foreach($users as $user): ?>
                         <tr>
-                            <td><?php echo $tour['name']; ?></td>
-                            <td class="center"><?php echo $tour['description']; ?></td>
-                            <td class="center"><?php echo $tour['category_id']; ?></td>
-                            <td class="center"><img width="100" height="100" src="uploads/tours/<?php echo $tour['image']; ?>" alt=""></td>
+                            <td><?php echo $user['username']; ?></td>
+                            <td class="center"><?php echo $user['email']; ?></td>
                             <td class="center">
-                                <a class="btn btn-success" href="tourImages.php">
-                                    <i class="halflings-icon white zoom-in"></i>
-                                </a>
-                                <a class="btn btn-info" href="editTour.php">
+
+                                <a class="btn btn-info" href="editClient.php?id=<?php echo $user['id']; ?>">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
-                                <a class="btn btn-danger" href="deleteTour.php">
+                                <a class="btn btn-danger" href="deleteClient.php?id=<?php echo $user['id']; ?>">
                                     <i class="halflings-icon white trash"></i>
                                 </a>
                             </td>

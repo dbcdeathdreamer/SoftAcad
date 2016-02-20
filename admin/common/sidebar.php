@@ -10,6 +10,7 @@
                     <li><a href="categories.php"><i class="icon-folder-open"></i><span class="hidden-tablet"> Categories</span></a></li>
                     <li><a href="tours.php"><i class="icon-sign-blank"></i><span class="hidden-tablet"> Tours</span></a></li>
                     <li><a href="blog.php"><i class="icon-book"></i><span class="hidden-tablet"> Blog posts</span></a></li>
+                    <li><a href="clients.php"><i class="icon-user"></i><span class="hidden-tablet"> Clients</span></a></li>
                 </ul>
             </div>
         </div>
