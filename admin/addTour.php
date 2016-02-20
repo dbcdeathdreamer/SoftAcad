@@ -22,27 +22,20 @@ $insertInfo = array(
 $errors = array();
 
 if (isset($_POST['createTour'])) {
+
+
+    $fileUpload = new fileUpload('image');
+    $file = $fileUpload->getFilename();
+    $fileExtention = $fileUpload->getFileExtention();
+
     $imageErrors = array();
-    if (isset($_FILES['image'])) {
-        $fileName = $_FILES['image']['name'];
-        $fileSize = $_FILES['image']['size'];
-        $fileTmp  = $_FILES['image']['tmp_name'];
-        $fileType = $_FILES['image']['type'];
-        $fileExtention = strtolower(end(explode('.', $fileName)));
-        $allowExtentions = array('jpg','jpeg', 'png', 'gif');
-
-        if (!in_array($fileExtention, $allowExtentions)) {
-            $imageErrors = 'Wrong extention';
-        }
-
-        if ($fileSize > 1024000) {
-            $imageErrors = 'Your file is bigger than 1mb';
-        }
-
+    if ($file != '') {
+        $imageErrors =  $fileUpload->validate();
+        $newName = sha1(time()).'.'.$fileExtention;
+    } else {
+        $newName = '';
     }
 
-    $imageName = (isset($fileName)) ? $fileName : '';
-    $newName = sha1(time()).'.'.$fileExtention;
     $insertInfo = array(
         'name' => $_POST['name'],
         'image' => $newName,
@@ -51,10 +44,10 @@ if (isset($_POST['createTour'])) {
 
     );
 
-
     if (empty($imageErrors) && empty($errors)) {
         $db->create('tours', $insertInfo);
-        move_uploaded_file($fileTmp, 'uploads/tours/'.$newName);
+        $fileUpload->upload('uploads/tours/'.$newName);
+
         header("Location: tours.php");
     }
 }

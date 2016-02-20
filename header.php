@@ -1,3 +1,12 @@
+<?php
+
+session_start();
+require "admin/common/DB.php";
+require "functions.php";
+
+$db = DB::getInstance();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

@@ -5,6 +5,51 @@ require_once('common/header.php');
 if (!loggedIn()) {
     header('Location: login.php');
 }
+
+if(!isset($_GET['id'])) {
+    header('Location: tours.php');
+}
+
+$db = DB::getInstance();
+$tour = $db->get('tours', "id =".$_GET['id']);
+if(is_null($tour)) {
+    header('Location: tours.php');
+}
+
+$images = $db->get('tours_images', 'tours_id = '.$_GET['id']);
+
+
+
+$fileUpload = new fileUpload('image');
+$file = $fileUpload->getFilename();
+
+$fileExtention = $fileUpload->getFileExtention();
+
+$imageErrors = array();
+
+if ($file != '') {
+   
+    $imageErrors =  $fileUpload->validate();
+    $newName = sha1(time()).'.'.$fileExtention;
+    $insertInfo = array(
+        'tours_id' => $_GET['id'],
+        'image' => $newName
+    );
+
+    if (empty($imageErrors)) {
+        $db->create('tours_images', $insertInfo);
+        $fileUpload->upload('uploads/tours/'.$newName);
+
+        header("Location: tourImages.php?id=".$_GET['id']);
+    }
+} else {
+
+}
+
+
+
+
+
 ?>
     <link id="bootstrap-style" href="css/images.css" rel="stylesheet">
 <?php require_once('common/sidebar.php'); ?>
@@ -20,8 +65,15 @@ if (!loggedIn()) {
             <li><a href="#">Tour Images</a></li>
         </ul>
 
-        <form action="" method="post"  class="form-horizontal">
+        <form action="" method="post"  class="form-horizontal" enctype="multipart/form-data">
             <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="fileInput">File input</label>
+                    <div class="controls">
+                        <input class="input-file uniform_on" id="fileInput" name="image" type="file">
+                        <input type="submit" name="createTour" value="Add Tour" class="btn btn-primary"/>
+                    </div>
+                </div>
 
             </fieldset>
         </form>
@@ -29,36 +81,12 @@ if (!loggedIn()) {
 
         <div class="container">
             <div class="row">
-                <div class="span3 ">
-                    <button class="btn btn-mini btn-danger ">Mini button</button>
-                    <img class="img-responsive" src="http://2.bp.blogspot.com/-H6MAoWN-UIE/TuRwLbHRSWI/AAAAAAAABBk/89iiEulVsyg/s400/Free%2BNature%2BPhoto.jpg" />
-                </div>
-                <div class="span3 ">
-                    <button class="btn btn-mini btn-danger">Mini button</button>
-                    <img class="img-responsive" src="http://2.bp.blogspot.com/-H6MAoWN-UIE/TuRwLbHRSWI/AAAAAAAABBk/89iiEulVsyg/s400/Free%2BNature%2BPhoto.jpg" />
-                </div>
-                <div class="span3 ">
-                    <button class="btn btn-mini btn-danger">Mini button</button>
-                    <img class="img-responsive" src="http://2.bp.blogspot.com/-H6MAoWN-UIE/TuRwLbHRSWI/AAAAAAAABBk/89iiEulVsyg/s400/Free%2BNature%2BPhoto.jpg" />
-                </div>
-                <div class="span3 ">
-                    <button class="btn btn-mini btn-danger">Mini button</button>
-                    <img class="img-responsive" src="http://2.bp.blogspot.com/-H6MAoWN-UIE/TuRwLbHRSWI/AAAAAAAABBk/89iiEulVsyg/s400/Free%2BNature%2BPhoto.jpg" />
-                </div>
-                <div class="span3 ">
-                    <button class="btn btn-mini btn-danger">Mini button</button>
-                    <img class="img-responsive" src="http://2.bp.blogspot.com/-H6MAoWN-UIE/TuRwLbHRSWI/AAAAAAAABBk/89iiEulVsyg/s400/Free%2BNature%2BPhoto.jpg" />
-                </div>
-                <div class="span3 ">
-                    <button class="btn btn-mini btn-danger">Mini button</button>
-                    <img class="img-responsive" src="http://2.bp.blogspot.com/-H6MAoWN-UIE/TuRwLbHRSWI/AAAAAAAABBk/89iiEulVsyg/s400/Free%2BNature%2BPhoto.jpg" />
-                </div>
-                <div class="span3 ">
-                    <button class="btn btn-mini btn-danger">Mini button</button>
-                    <img class="img-responsive" src="http://2.bp.blogspot.com/-H6MAoWN-UIE/TuRwLbHRSWI/AAAAAAAABBk/89iiEulVsyg/s400/Free%2BNature%2BPhoto.jpg" />
-                </div>
-
-
+                <?php foreach($images as $image): ?>
+                    <div class="span3 ">
+                        <a href="deleteTourImage.php?id=<?php echo $image['id']; ?>" class="btn btn-mini btn-danger ">Delete</a>
+                        <img style="width:270px; height:220px;" class="img-responsive" src="uploads/tours/<?php echo  $image['image']; ?>" />
+                    </div>
+                <?php endforeach; ?>
 
             </div>
         </div>

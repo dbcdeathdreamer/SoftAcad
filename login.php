@@ -3,6 +3,28 @@
 <?php require_once 'nav.php'; ?>
 <!-- Header Carousel -->
 
+<?php
+$errors = array();
+if (isset($_POST['username']) && isset($_POST['password']) && strlen($_POST['username']) > 3 && strlen($_POST['password']) >3) {
+    $password = sha1($_POST['password']);
+
+    $table = 'clients';
+    $username = htmlspecialchars(trim($_POST['username']));
+    $where = "username = '{$username}'";
+    $result = $db->get($table, $where);
+    if($result != null  && $result[0]['password'] == $password) {
+        unset($result[0]['password']);
+        $_SESSION['client'] = $result[0];
+        header('Location: index.php');
+    } else {
+        $errors['login'] = 'Wrong credentials';
+    }
+
+}
+
+?>
+
+
 <!-- Page Content -->
 <div class="container">
 
@@ -30,10 +52,10 @@
                         <h3 class="form-signin-heading">Welcome Back! Please Sign In</h3>
                         <hr class="colorgraph"><br>
 
-                        <input type="text" class="form-control" name="Username" placeholder="Username" required="" autofocus="" />
-                        <input type="password" class="form-control" name="Password" placeholder="Password" required=""/>
+                        <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="" />
+                        <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
 
-                        <button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>
+                        <input type="submit" class="btn btn-lg btn-primary btn-block"  name="submit" value="Login">Login</input>
                     </form>
                 </div>
             </div>

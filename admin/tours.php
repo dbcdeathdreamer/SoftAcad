@@ -48,7 +48,7 @@ $tours = $db->get('tours');
                             <td class="center"><?php echo $tour['category_id']; ?></td>
                             <td class="center"><img width="100" height="100" src="uploads/tours/<?php echo $tour['image']; ?>" alt=""></td>
                             <td class="center">
-                                <a class="btn btn-success" href="tourImages.php">
+                                <a class="btn btn-success" href="tourImages.php?id=<?php echo $tour['id'];?>">
                                     <i class="halflings-icon white zoom-in"></i>
                                 </a>
                                 <a class="btn btn-info" href="editTour.php">

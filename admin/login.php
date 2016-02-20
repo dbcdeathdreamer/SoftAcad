@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once('common/DB.php');
-$db = new DB();
+$db = DB::getInstance();
 
 ?>
 

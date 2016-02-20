@@ -9,11 +9,20 @@ class DB {
 
     private $connection;
 
-    public function __construct()
+    static $instance = null;
+
+    private function __construct()
     {
         $connection = mysqli_connect(self::DB_HOST, self::DB_USERNAME, self::DB_PASSWORD);
         mysqli_select_db($connection, self::DB_NAME);
         $this->connection = $connection;
+    }
+
+    public static function getInstance() {
+        if (DB::$instance === null) {
+            DB::$instance = new DB();
+        }
+        return DB::$instance;
     }
 
     public function get($table, $where = null, $limit = -1)
