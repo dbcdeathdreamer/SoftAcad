@@ -25,7 +25,7 @@ class DB {
         return DB::$instance;
     }
 
-    public function get($table, $where = null, $limit = -1)
+    public function get($table, $where = null, $limit = -1, $offset = 0)
     {
         $sql =  "SELECT * FROM {$table}";
 
@@ -36,6 +36,9 @@ class DB {
 
         if ($limit > -1) {
             $sql .= " LIMIT {$limit} ";
+            if ($offset > 0) {
+                $sql .= " , $offset ";
+            }
         }
 
         $result = mysqli_query($this->connection, $sql);
