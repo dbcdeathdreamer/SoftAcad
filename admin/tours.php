@@ -17,7 +17,22 @@ require_once('common/sidebar.php');
     </ul>
 
 <?php
-$tours = $db->get('tours');
+
+$page = isset($_GET['page'])? (int)$_GET['page'] : 1;
+$perPage = 5;
+$offset  = ($page) ? ($page-1) * $perPage : 0;
+
+
+$rows = count($db->get('tours'));
+
+$pagination = new Pagination();
+$pagination->setPerPage($perPage);
+$pagination->setTotalRows($rows);
+$pagination->setBaseUrl('http://localhost/Lectures/Lek15/softacadTours/admin/tours.php');
+
+
+
+$tours = $db->get('tours', null , $offset, $perPage);
 
 ?>
     <div class="row-fluid sortable">
@@ -62,18 +77,7 @@ $tours = $db->get('tours');
                     <?php endforeach; ?>
                     </tbody>
                 </table>
-                <div class="pagination pagination-centered">
-                    <ul>
-                        <li><a href="#">Prev</a></li>
-                        <li class="active">
-                            <a href="#">1</a>
-                        </li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">Next</a></li>
-                    </ul>
-                </div>
+                <?php echo $pagination->create(); ?>
             </div>
         </div><!--/span-->
     </div><!--/row-->
