@@ -9,13 +9,14 @@ if(!isset($_GET['id'])) {
     header('Location: users.php');
 }
 
-$user = getUserById($_GET['id']);
+$userCollection = new UserCollection();
+$user = $userCollection->getOne($_GET['id']);
 
 if(is_null($user)) {
     header('Location: users.php');
 }
 
-deleteUser($user['id']);
+$userCollection->delete($user->getId());
 header('Location: users.php');
 
 ?>

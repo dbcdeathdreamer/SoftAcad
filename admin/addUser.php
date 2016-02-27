@@ -29,7 +29,16 @@ if(isset($_POST['createUser'])) {
     $errors = validateUserInput($insertInfo);
 
     if (empty($errors)) {
-        createNewUser($insertInfo);
+
+        $userEntity = new UsersEntity();
+        $userEntity->setUsername($insertInfo['username']);
+        $userEntity->setEmail($insertInfo['email']);
+        $userEntity->setPassword($insertInfo['password']);
+        $userEntity->setDescription($insertInfo['description']);
+
+        $collection = new UserCollection();
+        $collection->save($userEntity);
+
         $_SESSION['flashMessage'] = 'You have 1 new user';
         header('Location: users.php');
     }

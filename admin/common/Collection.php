@@ -9,18 +9,9 @@ class Collection {
         $this->db = Database::getInstance();
     }
 
-    public function getAll($table, $fields = array() , $where = array(), $limit = -1, $offset = 0)
+    public function getAll($table, $where = array(), $limit = -1, $offset = 0)
     {
-        $sql = " SELECT ";
-        if(empty($fields)) {
-            $sql.= " * ";
-        } else {
-            foreach ($fields as $field) {
-                $sql .= " $field, ";
-            }
-        }
-
-        $sql .= " FROM {$table} ";
+        $sql = " SELECT * FROM {$table} ";
 
         $sql.= "WHERE 1=1";
 

@@ -47,19 +47,22 @@ require_once('common/sidebar.php');
                     <tbody>
                     <?php
 
-                    $table = 'users';
-                    $users = $db->get($table);
+
+
+                    $usersCollection = new UserCollection();
+                    $users = $usersCollection->getAll();
+
                     foreach($users as $user): ?>
                         <tr>
-                            <td><?php echo $user['username']; ?></td>
-                            <td class="center"><?php echo $user['email']; ?></td>
-                            <td class="center"><?php echo $user['description']; ?></td>
+                            <td><?php echo $user->getUsername(); ?></td>
+                            <td class="center"><?php echo $user->getEmail(); ?></td>
+                            <td class="center"><?php echo $user->getDescription(); ?></td>
                             <td class="center">
 
-                                <a class="btn btn-info" href="editUser.php?id=<?php echo $user['id']; ?>">
+                                <a class="btn btn-info" href="editUser.php?id=<?php echo $user->getId(); ?>">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
-                                <a class="btn btn-danger" href="deleteUser.php?id=<?php echo $user['id']; ?>">
+                                <a class="btn btn-danger" href="deleteUser.php?id=<?php echo $user->getId(); ?>">
                                     <i class="halflings-icon white trash"></i>
                                 </a>
                             </td>

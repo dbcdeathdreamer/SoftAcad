@@ -2,14 +2,19 @@
 session_start();
 header('Content-Type: text/html; charset=utf-8');
 
-
 //require_once(__DIR__.'/DB.php');
 function __autoload ($classname) {
-    require ('common/'.$classname.'.php');
+    if (strpos($classname, 'Entity')) {
+        require (__DIR__.'/../../common/models/entities/'.$classname.'.php');
+    } elseif (strpos($classname, 'Collection')) {
+        require (__DIR__.'/../../common/collections/'.$classname.'.php');
+    } else {
+        require (__DIR__.'/../../common/system/'.$classname.'.php');
+    }
 }
+
 require_once('function.php');
 
-$db = DB::getInstance();
 
 ?>
 
@@ -33,7 +38,7 @@ $db = DB::getInstance();
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
     <link id="base-style" href="css/style.css" rel="stylesheet">
     <link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
+<!--    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>-->
     <!-- end: CSS -->
 
 

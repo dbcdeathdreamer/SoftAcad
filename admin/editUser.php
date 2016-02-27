@@ -9,17 +9,18 @@ if(!isset($_GET['id'])) {
    header('Location: users.php');
 }
 
-$user = getUserById($_GET['id']);
+$userCollection = new UserCollection();
+$user = $userCollection->getOne($_GET['id']);
 
 if(is_null($user)) {
     header('Location: users.php');
 }
 
 $insertInfo = array(
-    'username' => $user['username'],
+    'username' => $user->getUsername(),
     'password' => '',
-    'email'    => $user['email'],
-    'description' => $user['description']
+    'email'    => $user->getEmail(),
+    'description' => $user->getDescription()
 );
 
 $errors = array();
@@ -36,7 +37,17 @@ if(isset($_POST['editUser'])) {
     $errors = validateUserInput($insertInfo);
 
     if (empty($errors)) {
-        editUser($user['id'], $insertInfo);
+
+        $entity = new UsersEntity();
+        $entity->setId($_GET['id']);
+        $entity->setUsername($insertInfo['username']);
+        $entity->setPassword($insertInfo['password']);
+        $entity->setEmail($insertInfo['email']);
+        $entity->setDescription($insertInfo['description']);
+
+
+        $userCollection->save($entity);
+
         $_SESSION['flashMessage'] = 'You have 1 affected row';
         header('Location: users.php');
     }
@@ -102,7 +113,7 @@ require_once('common/sidebar.php');
                 </div>
             </div>
                 <div class="form-actions">
-                    <input type="submit" name="createUser" value="Add User" class="btn btn-primary"/>
+                    <input type="submit" name="editUser" value="Edit User" class="btn btn-primary"/>
                 </div>
             </fieldset>
         </form>
