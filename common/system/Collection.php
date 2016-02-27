@@ -30,7 +30,7 @@ abstract class Collection {
     {
         $sql = " SELECT * FROM {$this->table} ";
 
-        $sql.= "WHERE 1=1";
+        $sql.= " WHERE 1=1 ";
 
         foreach ($where as $key => $value) {
             $sql.= "AND {$key} = '{$value}' ";

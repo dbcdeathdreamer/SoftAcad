@@ -4,7 +4,8 @@ if (!loggedIn()) {
     header('Location: login.php');
 }
 
-$categories = $db->get('categories');
+$categoryCollection = new CategoryCollection();
+$categories = $categoryCollection->getAll();
 
 
 
@@ -44,13 +45,13 @@ require_once('common/sidebar.php');
                     <tbody>
                     <?php foreach($categories as $category): ?>
                         <tr>
-                            <td><?php echo $category['name']; ?></td>
-                            <td class="center"><?php echo $category['description']; ?></td>
+                            <td><?php echo $category->getName(); ?></td>
+                            <td class="center"><?php echo $category->getDescription(); ?></td>
                             <td class="center">
-                                <a class="btn btn-info" href="editCategory.php?id=<?php echo $category['id']; ?>">
+                                <a class="btn btn-info" href="editCategory.php?id=<?php echo $category->getId(); ?>">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
-                                <a class="btn btn-danger" href="deleteCategory.php?id=<?php echo $category['id']; ?>">
+                                <a class="btn btn-danger" href="deleteCategory.php?id=<?php echo $category->getId(); ?>">
                                     <i class="halflings-icon white trash"></i>
                                 </a>
                             </td>
