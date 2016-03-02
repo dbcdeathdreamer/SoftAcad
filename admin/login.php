@@ -1,8 +1,17 @@
 <?php
 session_start();
-require_once('common/DB.php');
-$db = DB::getInstance();
+header('Content-Type: text/html; charset=utf-8');
 
+//require_once(__DIR__.'/DB.php');
+function __autoload ($classname) {
+    if (strpos($classname, 'Entity')) {
+        require (__DIR__.'/../common/models/entities/'.$classname.'.php');
+    } elseif (strpos($classname, 'Collection')) {
+        require (__DIR__.'/../common/collections/'.$classname.'.php');
+    } else {
+        require (__DIR__.'/../common/system/'.$classname.'.php');
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -55,25 +64,35 @@ $db = DB::getInstance();
 <body>
 
 <?php
+$usersCollection = new UserCollection();
+
+
 $errors = array();
-   if (isset($_POST['username']) && isset($_POST['password']) && strlen($_POST['username']) > 3 && strlen($_POST['password']) >3) {
-       $password = sha1($_POST['password']);
 
-       $table = 'users';
-       $username = htmlspecialchars(trim($_POST['username']));
-       $where = "username = '{$username}'";
-       $result = $db->get($table, $where);
-       if($result != null  && $result[0]['password'] == $password) {
-           unset($result[0]['password']);
-           $_SESSION['user'] = $result[0];
-           $_SESSION['logged_in'] = 1;
-           header('Location: index.php');
-       } else {
-           $errors['login'] = 'Wrong credentials';
-       }
+if (isset($_POST['username'])) {
 
-   }
 
+    if (isset($_POST['username']) && isset($_POST['password']) && strlen($_POST['username']) > 3 && strlen($_POST['password']) > 3) {
+        $password = sha1($_POST['password']);
+
+        $username = htmlspecialchars(trim($_POST['username']));
+        $where = array('username' => $username);
+
+        $result = $usersCollection->getAll($where);
+
+        if ($result != null && $result[0]->getPassword() == $password) {
+
+            $_SESSION['user'] = $result[0];
+            $_SESSION['logged_in'] = 1;
+            header('Location: index.php');
+        } else {
+            $errors['login'] = 'Wrong credentials';
+        }
+
+    } else {
+        $errors['login'] = 'Wrong credentials';
+    }
+}
 ?>
 
 <div class="container-fluid-full">
@@ -87,9 +106,13 @@ $errors = array();
                 </div>
                 <h2>Login to your account</h2>
                 <?php
-                    if(array_key_exists('login', $errors)) {
-                        echo $errors['login'];
-                    }
+
+                    if(array_key_exists('login', $errors)) { ?>
+                        <div class="alert alert-error">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<strong><?php  echo $errors['login']; ?></strong>
+						</div>
+                   <?php }
                 ?>
                 <form class="form-horizontal" action="" method="post">
                     <fieldset>
@@ -109,7 +132,7 @@ $errors = array();
                         <label class="remember" for="remember"><input type="checkbox" id="remember" />Remember me</label>
 
                         <div class="button-login">
-                            <button type="submit" class="btn btn-primary">Login</button>
+                            <input type="submit" class="btn btn-primary" name="login" value="Login">
                         </div>
                         <div class="clearfix"></div>
                 </form>

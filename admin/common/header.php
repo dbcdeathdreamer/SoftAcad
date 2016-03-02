@@ -79,7 +79,7 @@ require_once('function.php');
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="halflings-icon white user"></i>
                             <?php if(loggedIn()): ?>
-                                <?php echo $_SESSION['user']['username']; ?>
+                                <?php echo $_SESSION['user']->getUsername(); ?>
                             <?php endif; ?>
                             <span class="caret"></span>
                         </a>

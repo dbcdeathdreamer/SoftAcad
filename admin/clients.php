@@ -47,18 +47,19 @@ require_once('common/sidebar.php');
                     <tbody>
                     <?php
 
-                    $table = 'clients';
-                    $users = $db->get($table);
+                    $clientsCollection = new ClientsCollection();
+                    $users = $clientsCollection->getAll();
+
                     foreach($users as $user): ?>
                         <tr>
-                            <td><?php echo $user['username']; ?></td>
-                            <td class="center"><?php echo $user['email']; ?></td>
+                            <td><?php echo $user->getUsername(); ?></td>
+                            <td class="center"><?php echo $user->getEmail(); ?></td>
                             <td class="center">
 
-                                <a class="btn btn-info" href="editClient.php?id=<?php echo $user['id']; ?>">
+                                <a class="btn btn-info" href="editClient.php?id=<?php echo $user->getId(); ?>">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
-                                <a class="btn btn-danger" href="deleteClient.php?id=<?php echo $user['id']; ?>">
+                                <a class="btn btn-danger" href="deleteClient.php?id=<?php echo $user->getId(); ?>">
                                     <i class="halflings-icon white trash"></i>
                                 </a>
                             </td>

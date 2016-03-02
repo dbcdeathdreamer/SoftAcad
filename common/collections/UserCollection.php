@@ -5,20 +5,21 @@ class UserCollection extends Collection {
     protected $entity = 'UsersEntity';
     protected $table  = 'users';
 
-
-   public function save(Entity $entity)
-   {
-       $dataInput = array(
+    /**
+     * @param Entity $entity
+     */
+    public function save(Entity $entity)
+    {
+        $dataInput = array(
            'username' => $entity->getUsername(),
            'description' => $entity->getDescription(),
-           'email'   => $entity->getEmail()
-       );
+           'email'   => $entity->getEmail(),
+        );
 
-       if ($entity->getId() > 0) {
+        if ($entity->getId() > 0) {
             $this->update($entity->getId(), $dataInput);
-       } else {
+        } else {
             $this->create($dataInput);
-       }
-   }
-
+        }
+    }
 }

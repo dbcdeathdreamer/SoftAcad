@@ -8,12 +8,11 @@ $errors = array();
 if (isset($_POST['username']) && isset($_POST['password']) && strlen($_POST['username']) > 3 && strlen($_POST['password']) >3) {
     $password = sha1($_POST['password']);
 
-    $table = 'clients';
+    $clientsCollection = new ClientsCollection();
     $username = htmlspecialchars(trim($_POST['username']));
-    $where = "username = '{$username}'";
-    $result = $db->get($table, $where);
-    if($result != null  && $result[0]['password'] == $password) {
-        unset($result[0]['password']);
+    $where = array('username' => $username);
+    $result = $clientsCollection->getAll($where);
+    if ($result != null  && $result[0]->getPassword() == $password) {
         $_SESSION['client'] = $result[0];
         header('Location: index.php');
     } else {

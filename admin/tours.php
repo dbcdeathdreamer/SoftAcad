@@ -22,17 +22,15 @@ $page = isset($_GET['page'])? (int)$_GET['page'] : 1;
 $perPage = 5;
 $offset  = ($page) ? ($page-1) * $perPage : 0;
 
-
-$rows = count($db->get('tours'));
+$toursCollection = new ToursCollection();
+$rows = count($toursCollection->getAll());
 
 $pagination = new Pagination();
 $pagination->setPerPage($perPage);
 $pagination->setTotalRows($rows);
 $pagination->setBaseUrl('http://localhost/Lectures/Lek15/softacadTours/admin/tours.php');
 
-
-
-$tours = $db->get('tours', null , $offset, $perPage);
+$tours = $toursCollection->getAll(array(), $offset, $perPage);
 
 ?>
     <div class="row-fluid sortable">
@@ -58,18 +56,18 @@ $tours = $db->get('tours', null , $offset, $perPage);
                     <tbody>
                     <?php foreach($tours as $tour): ?>
                         <tr>
-                            <td><?php echo $tour['name']; ?></td>
-                            <td class="center"><?php echo $tour['description']; ?></td>
-                            <td class="center"><?php echo $tour['category_id']; ?></td>
-                            <td class="center"><img width="100" height="100" src="uploads/tours/<?php echo $tour['image']; ?>" alt=""></td>
+                            <td><?php echo $tour->getName(); ?></td>
+                            <td class="center"><?php echo $tour->getDescription(); ?></td>
+                            <td class="center"><?php echo $tour->getCategoryId(); ?></td>
+                            <td class="center"><img width="100" height="100" src="uploads/tours/<?php echo $tour->getImage(); ?>" alt=""></td>
                             <td class="center">
-                                <a class="btn btn-success" href="tourImages.php?id=<?php echo $tour['id'];?>">
+                                <a class="btn btn-success" href="tourImages.php?id=<?php echo $tour->getId();?>">
                                     <i class="halflings-icon white zoom-in"></i>
                                 </a>
-                                <a class="btn btn-info" href="editTour.php">
+                                <a class="btn btn-info" href="editTour.php?id=<?php echo $tour->getId();?>">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
-                                <a class="btn btn-danger" href="deleteTour.php">
+                                <a class="btn btn-danger" href="deleteTour.php?id=<?php echo $tour->getId();?>">
                                     <i class="halflings-icon white trash"></i>
                                 </a>
                             </td>

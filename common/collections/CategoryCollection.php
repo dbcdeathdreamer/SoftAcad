@@ -2,7 +2,7 @@
 class CategoryCollection extends Collection {
 
     protected $table = 'categories';
-    protected $entity = 'categoryEntity';
+    protected $entity = 'CategoryEntity';
 
     public function save(Entity $entity)
     {

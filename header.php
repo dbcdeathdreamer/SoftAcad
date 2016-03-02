@@ -1,11 +1,17 @@
 <?php
-
 session_start();
-require "admin/common/DB.php";
-require "functions.php";
+header('Content-Type: text/html; charset=utf-8');
 
-$db = DB::getInstance();
-
+//require_once(__DIR__.'/DB.php');
+function __autoload ($classname) {
+    if (strpos($classname, 'Entity')) {
+        require (__DIR__.'/common/models/entities/'.$classname.'.php');
+    } elseif (strpos($classname, 'Collection')) {
+        require (__DIR__.'/common/collections/'.$classname.'.php');
+    } else {
+        require (__DIR__.'/common/system/'.$classname.'.php');
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

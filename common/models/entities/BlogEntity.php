@@ -1,13 +1,12 @@
 <?php
 
-class ToursEntity extends Entity
+class BlogEntity
 {
-
     private $id;
-    private $name;
     private $image;
-    private $category_id;
+    private $title;
     private $description;
+    private $createdAt;
 
     public function setId($id)
     {
@@ -17,16 +16,6 @@ class ToursEntity extends Entity
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getName()
-    {
-        return $this->name;
     }
 
     public function setImage($image)
@@ -39,14 +28,14 @@ class ToursEntity extends Entity
         return $this->image;
     }
 
-    public function setCategoryId($category_id)
+    public function setTitle($title)
     {
-        $this->category_id = $category_id;
+        $this->title = $title;
     }
 
-    public function getCategoryId()
+    public function getTitle()
     {
-        return $this->category_id;
+        return $this->title;
     }
 
     public function setDescription($description)
@@ -59,5 +48,13 @@ class ToursEntity extends Entity
         return $this->description;
     }
 
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
 
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 }

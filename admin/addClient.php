@@ -5,7 +5,7 @@ if (!loggedIn()) {
     header('Location: login.php');
 }
 
-
+$clientCollection = new ClientsCollection();
 
 ?>
 
@@ -27,6 +27,11 @@ if(isset($_POST['createUser'])) {
     $errors = validateUserInput($insertInfo);
 
     if (empty($errors)) {
+        $clientEntity = new ClientsEntity();
+        //add all fields
+
+
+        $clientCollection->save($clientEntity);
         $db->create('clients', $insertInfo);
         $_SESSION['flashMessage'] = 'You have 1 new user';
         header('Location: clients.php');
