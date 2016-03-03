@@ -28,11 +28,11 @@ if(isset($_POST['createUser'])) {
 
     if (empty($errors)) {
         $clientEntity = new ClientsEntity();
-        //add all fields
 
+        $obj = $clientEntity->init($insertInfo);
 
-        $clientCollection->save($clientEntity);
-        $db->create('clients', $insertInfo);
+        $clientCollection->save($obj);
+
         $_SESSION['flashMessage'] = 'You have 1 new user';
         header('Location: clients.php');
     }

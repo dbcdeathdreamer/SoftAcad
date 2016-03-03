@@ -1,6 +1,6 @@
 <?php
 
-class BlogEntity
+class BlogEntity extends Entity
 {
     private $id;
     private $image;

@@ -8,6 +8,16 @@ class ToursEntity extends Entity
     private $image;
     private $category_id;
     private $description;
+    private $categoryName;
+
+
+    public function setCategoryName($name) {
+        $this->categoryName = $name;
+    }
+
+    public function getCategoryName() {
+        return $this->categoryName;
+    }
 
     public function setId($id)
     {

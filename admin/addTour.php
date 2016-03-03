@@ -4,13 +4,11 @@ require_once('common/header.php');
 if (!loggedIn()) {
     header('Location: login.php');
 }
-
-
-
 ?>
 <?php
 
-$categories = $db->get('categories');
+$categoryCollection = new CategoryCollection();
+$categories = $categoryCollection->getAll();
 
 $insertInfo = array(
     'name' => '',
@@ -45,7 +43,13 @@ if (isset($_POST['createTour'])) {
     );
 
     if (empty($imageErrors) && empty($errors)) {
-        $db->create('tours', $insertInfo);
+
+        $toursCollection = new ToursCollection();
+        $toursEntity = new ToursEntity();
+        $obj = $toursEntity->init($insertInfo);
+
+        $toursCollection->save($obj);
+
         $fileUpload->upload('uploads/tours/'.$newName);
 
         header("Location: tours.php");
@@ -82,7 +86,7 @@ require_once('common/sidebar.php');
                     <div class="controls">
                         <select id="selectError3" name="categories">
                             <?php foreach($categories as $category): ?>
-                                <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
+                                <option value="<?php echo $category->getId(); ?>"><?php echo $category->getName(); ?></option>
                             <?php endforeach; ?>
                            
                         </select>

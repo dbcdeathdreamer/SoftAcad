@@ -10,13 +10,17 @@ if(!isset($_GET['id'])) {
     header('Location: tours.php');
 }
 
-$db = DB::getInstance();
-$tour = $db->get('tours', "id =".$_GET['id']);
+$tourCollection = new ToursCollection();
+$tour = $tourCollection->getOne($_GET['id']);
+
 if(is_null($tour)) {
     header('Location: tours.php');
 }
 
-$images = $db->get('tours_images', 'tours_id = '.$_GET['id']);
+
+$tourImagesCollection = new ToursImagesCollection();
+$images = $tourImagesCollection->getAll(array('tours_id' => $_GET['id']));
+
 
 
 
@@ -37,7 +41,11 @@ if ($file != '') {
     );
 
     if (empty($imageErrors)) {
-        $db->create('tours_images', $insertInfo);
+
+       $imageEntity = new ToursImagesEntity();
+       $obj =  $imageEntity->init($insertInfo);
+       $tourImagesCollection->save($obj);
+
         $fileUpload->upload('uploads/tours/'.$newName);
 
         header("Location: tourImages.php?id=".$_GET['id']);
@@ -83,8 +91,8 @@ if ($file != '') {
             <div class="row">
                 <?php foreach($images as $image): ?>
                     <div class="span3 ">
-                        <a href="deleteTourImage.php?id=<?php echo $image['id']; ?>" class="btn btn-mini btn-danger ">Delete</a>
-                        <img style="width:270px; height:220px;" class="img-responsive" src="uploads/tours/<?php echo  $image['image']; ?>" />
+                        <a href="deleteTourImage.php?id=<?php echo $image->getId(); ?>" class="btn btn-mini btn-danger ">Delete</a>
+                        <img style="width:270px; height:220px;" class="img-responsive" src="uploads/tours/<?php echo  $image->getImage(); ?>" />
                     </div>
                 <?php endforeach; ?>
 

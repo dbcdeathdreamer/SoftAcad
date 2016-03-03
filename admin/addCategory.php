@@ -29,7 +29,11 @@ if (isset($_POST['createCategory'])) {
 
         $table = 'categories';
 
-        $db->create($table, $insertInfo);
+        $categoryEntity = new CategoryEntity();
+        $obj = $categoryEntity->init($insertInfo);
+
+        $categoryCollection = new CategoryCollection();
+        $categoryCollection->save($obj);
 
         header('Location: categories.php');
     }

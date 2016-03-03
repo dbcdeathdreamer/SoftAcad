@@ -9,17 +9,18 @@ if(!isset($_GET['id'])) {
     header('Location: users.php');
 }
 
-$db = db::getInstance();
-$image = $db->get('tours_images', 'id = '.$_GET['id']);
+$imageCollection = new ToursImagesCollection();
+
+$image = $imageCollection->getOne($_GET['id']);
 
 if(is_null($image)) {
     header('Location: tours.php');
 }
 
-$tourId = $image[0]['tours_id'];
+$tourId = $image->getToursId();
 
-unlink('uploads/tours/'.$image[0]['image']);
-$db->delete('tours_images', $_GET['id']);
+unlink('uploads/tours/'.$image->getImage());
+$imageCollection->delete($_GET['id']);
 
 header("Location: tourImages.php?id=".$tourId);
 

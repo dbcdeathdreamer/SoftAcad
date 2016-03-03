@@ -46,11 +46,21 @@ require_once('common/sidebar.php');
                     </thead>
                     <tbody>
                     <?php
-
-
-
                     $usersCollection = new UserCollection();
-                    $users = $usersCollection->getAll();
+
+                    $page = isset($_GET['page'])? (int)$_GET['page'] : 1;
+                    $perPage = 5;
+                    $offset  = ($page) ? ($page-1) * $perPage : 0;
+
+
+                    $rows = count($usersCollection->getAll());
+
+                    $pagination = new Pagination();
+                    $pagination->setPerPage($perPage);
+                    $pagination->setTotalRows($rows);
+                    $pagination->setBaseUrl("http://localhost/Lectures/Lek15/softacadTours/admin/users.php");
+
+                    $users = $usersCollection->getAll(array(), $offset, $perPage);
 
                     foreach($users as $user): ?>
                         <tr>
@@ -70,18 +80,7 @@ require_once('common/sidebar.php');
                    <?php endforeach; ?>
                     </tbody>
                 </table>
-                <div class="pagination pagination-centered">
-                    <ul>
-                        <li><a href="#">Prev</a></li>
-                        <li class="active">
-                            <a href="#">1</a>
-                        </li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">Next</a></li>
-                    </ul>
-                </div>
+                <?php echo $pagination->create(); ?>
             </div>
         </div><!--/span-->
     </div><!--/row-->

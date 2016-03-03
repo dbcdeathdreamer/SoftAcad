@@ -1,6 +1,6 @@
 <?php
 
-class ToursImagesEntity
+class ToursImagesEntity extends Entity
 {
 
     private $id;
