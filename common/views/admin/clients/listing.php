@@ -1,10 +1,5 @@
-<?php
-require_once('common/header.php');
-if (!loggedIn()) {
-    header('Location: login.php');
-}
-require_once('common/sidebar.php');
-?>
+<?php require_once __DIR__.'/../include/header.php'; ?>
+<?php require_once __DIR__.'/../include/sidebar.php'; ?>
 <!-- start: Content -->
 <div id="content" class="span10">
     <ul class="breadcrumb">
@@ -74,4 +69,5 @@ require_once('common/sidebar.php');
 
 
 </div><!--/.fluid-container-->
-<?php require_once('common/footer.php'); ?>
+
+<?php require_once __DIR__.'/../include/footer.php'; ?>

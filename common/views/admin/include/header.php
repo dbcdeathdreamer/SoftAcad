@@ -1,23 +1,3 @@
-<?php
-session_start();
-header('Content-Type: text/html; charset=utf-8');
-
-//require_once(__DIR__.'/DB.php');
-function __autoload ($classname) {
-    if (strpos($classname, 'Entity')) {
-        require (__DIR__.'/../../common/models/entities/'.$classname.'.php');
-    } elseif (strpos($classname, 'Collection')) {
-        require (__DIR__ . '/../../common/collections/' .$classname.'.php');
-    } else {
-        require (__DIR__.'/../../common/system/'.$classname.'.php');
-    }
-}
-
-require_once('function.php');
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,7 +58,7 @@ require_once('function.php');
                     <li class="dropdown">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="halflings-icon white user"></i>
-                            <?php if(loggedIn()): ?>
+                            <?php if($this->loggedIn()): ?>
                                 <?php echo $_SESSION['user']->getUsername(); ?>
                             <?php endif; ?>
                             <span class="caret"></span>
@@ -87,11 +67,11 @@ require_once('function.php');
                             <li class="dropdown-menu-title">
                                 <span>Account Settings</span>
                             </li>
-                            <?php if(!loggedIn()): ?>
-                                <li><a href="login.php"><i class="halflings-icon off"></i>Login</a></li>
+                            <?php if(!$this->loggedIn()): ?>
+                                <li><a href="index.php?c=login&m=login"><i class="halflings-icon off"></i>Login</a></li>
                             <?php else: ?>
                                 <li><a href="#"><i class="halflings-icon user"></i> Profile</a></li>
-                                <li><a href="logout.php"><i class="halflings-icon off"></i> Logout</a></li>
+                                <li><a href="index.php?c=login&m=logout"><i class="halflings-icon off"></i> Logout</a></li>
                             <?php endif; ?>
                         </ul>
                     </li>

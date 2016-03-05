@@ -1,10 +1,5 @@
-<?php
-require_once('common/header.php');
-if (!loggedIn()) {
-    header('Location: login.php');
-}
-require_once('common/sidebar.php');
-?>
+<?php require_once __DIR__.'/../include/header.php'; ?>
+<?php require_once __DIR__.'/../include/sidebar.php'; ?>
 <!-- start: Content -->
 <div id="content" class="span10">
     <ul class="breadcrumb">
@@ -28,36 +23,24 @@ require_once('common/sidebar.php');
                 </div>
             </div>
             <div class="box-content">
-                <?php
-                if (isset($_SESSION['flashMessage'])) {
-                    echo $_SESSION['flashMessage'];
-                    unset($_SESSION['flashMessage']);
-                }
-                ?>
-
-                <a href="addClient.php" class="btn btn-large btn-success pull-right">Create new client</a>
+                <a href="addCategory.php" class="btn btn-large btn-success pull-right">Create category</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Email</th>
+                        <th>Name</th>
                         <th>Description</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php
-
-
-                    foreach($users as $user): ?>
+                    <?php foreach($categories as $category): ?>
                         <tr>
-                            <td><?php echo $user->getUsername(); ?></td>
-                            <td class="center"><?php echo $user->getEmail(); ?></td>
+                            <td><?php echo $category->getName(); ?></td>
+                            <td class="center"><?php echo $category->getDescription(); ?></td>
                             <td class="center">
-
-                                <a class="btn btn-info" href="editClient.php?id=<?php echo $user->getId(); ?>">
+                                <a class="btn btn-info" href="editCategory.php?id=<?php echo $category->getId(); ?>">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
-                                <a class="btn btn-danger" href="deleteClient.php?id=<?php echo $user->getId(); ?>">
+                                <a class="btn btn-danger" href="deleteCategory.php?id=<?php echo $category->getId(); ?>">
                                     <i class="halflings-icon white trash"></i>
                                 </a>
                             </td>
@@ -65,7 +48,7 @@ require_once('common/sidebar.php');
                     <?php endforeach; ?>
                     </tbody>
                 </table>
-                <?php echo  $pagination->create(); ?>
+                <?php echo $pagination->create(); ?>
             </div>
         </div><!--/span-->
     </div><!--/row-->
@@ -74,4 +57,5 @@ require_once('common/sidebar.php');
 
 
 </div><!--/.fluid-container-->
-<?php require_once('common/footer.php'); ?>
+
+<?php require_once __DIR__.'/../include/footer.php'; ?>

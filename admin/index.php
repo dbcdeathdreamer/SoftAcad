@@ -1,70 +1,35 @@
 <?php
-require_once('common/header.php');
-
-if (!loggedIn()) {
-	header('Location: login.php');
+//Autoload
+//require_once(__DIR__.'/DB.php');
+function __autoload ($classname) {
+    if (strpos($classname, 'Entity')) {
+        require (__DIR__.'/../common/models/entities/'.$classname.'.php');
+    } elseif (strpos($classname, 'Controller')) {
+        require (__DIR__ . '/../common/controllers/admin/' .$classname.'.php');
+    } elseif (strpos($classname, 'Collection')) {
+        require (__DIR__ . '/../common/models/collections/' .$classname.'.php');
+    } else {
+        require (__DIR__.'/../common/system/'.$classname.'.php');
+    }
 }
 
-require_once('common/sidebar.php');
-
-?>
-
-
-			<!-- start: Content -->
-			<div id="content" class="span10">
-			
-			
-			<ul class="breadcrumb">
-				<li>
-					<i class="icon-home"></i>
-					<a href="index.php">Home</a>
-					<i class="icon-angle-right"></i>
-				</li>
-				<li><a href="#">Dashboard</a></li>
-			</ul>
-
-			<div class="row-fluid">
-				
-				<div class="span3 statbox purple" onTablet="span6" onDesktop="span3">
-					<div class="boxchart">5,6,7,2,0,4,2,4,8,2,3,3,2</div>
-					<div class="number">854<i class="icon-arrow-up"></i></div>
-					<div class="title">visits</div>
-					<div class="footer">
-						<a href="#"> read full report</a>
-					</div>	
-				</div>
-				<div class="span3 statbox green" onTablet="span6" onDesktop="span3">
-					<div class="boxchart">1,2,6,4,0,8,2,4,5,3,1,7,5</div>
-					<div class="number">123<i class="icon-arrow-up"></i></div>
-					<div class="title">sales</div>
-					<div class="footer">
-						<a href="#"> read full report</a>
-					</div>
-				</div>
-				<div class="span3 statbox blue noMargin" onTablet="span6" onDesktop="span3">
-					<div class="boxchart">5,6,7,2,0,-4,-2,4,8,2,3,3,2</div>
-					<div class="number">982<i class="icon-arrow-up"></i></div>
-					<div class="title">orders</div>
-					<div class="footer">
-						<a href="#"> read full report</a>
-					</div>
-				</div>
-				<div class="span3 statbox yellow" onTablet="span6" onDesktop="span3">
-					<div class="boxchart">7,2,2,2,1,-4,-2,4,8,,0,3,3,5</div>
-					<div class="number">678<i class="icon-arrow-down"></i></div>
-					<div class="title">visits</div>
-					<div class="footer">
-						<a href="#"> read full report</a>
-					</div>
-				</div>	
-				
-			</div>		
+$controller = 'index1.php';
+//Get controller parameter
+$controller = (isset($_GET['c']))? $_GET['c'] : 'dashboard';
+//Construct controller name
+$controller = ucfirst($controller).'Controller';
 
 
-	</div><!--/.fluid-container-->
-	
-			<!-- end: Content -->
+//Get method name
+$method = (isset($_GET['m']))? $_GET['m'] : 'index';
 
-<?php
-require_once('common/footer.php');
+$inst = new $controller();
+
+$inst->$method();
+
+
+//Get controller instance
+//Method
+
+
 ?>

@@ -1,10 +1,5 @@
-<?php
-require_once('common/header.php');
-if (!loggedIn()) {
-    header('Location: login.php');
-}
-require_once('common/sidebar.php');
-?>
+<?php require_once __DIR__.'/../include/header.php'; ?>
+<?php require_once __DIR__.'/../include/sidebar.php'; ?>
 <!-- start: Content -->
 <div id="content" class="span10">
     <ul class="breadcrumb">
@@ -15,7 +10,6 @@ require_once('common/sidebar.php');
         </li>
         <li><a href="#">Dashboard</a></li>
     </ul>
-
 
     <div class="row-fluid sortable">
         <div class="box span12">
@@ -35,7 +29,7 @@ require_once('common/sidebar.php');
                 }
                 ?>
 
-                <a href="addClient.php" class="btn btn-large btn-success pull-right">Create new client</a>
+                <a href="index.php?c=user&m=create" class="btn btn-large btn-success pull-right">Create new user</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -46,18 +40,17 @@ require_once('common/sidebar.php');
                     </thead>
                     <tbody>
                     <?php
-
-
                     foreach($users as $user): ?>
                         <tr>
                             <td><?php echo $user->getUsername(); ?></td>
                             <td class="center"><?php echo $user->getEmail(); ?></td>
+                            <td class="center"><?php echo $user->getDescription(); ?></td>
                             <td class="center">
 
-                                <a class="btn btn-info" href="editClient.php?id=<?php echo $user->getId(); ?>">
+                                <a class="btn btn-info" href="index.php?c=user&m=update&id=<?php echo $user->getId(); ?>">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
-                                <a class="btn btn-danger" href="deleteClient.php?id=<?php echo $user->getId(); ?>">
+                                <a class="btn btn-danger" href="index.php?c=user&m=delete&id=<?php echo $user->getId(); ?>">
                                     <i class="halflings-icon white trash"></i>
                                 </a>
                             </td>
@@ -65,7 +58,7 @@ require_once('common/sidebar.php');
                     <?php endforeach; ?>
                     </tbody>
                 </table>
-                <?php echo  $pagination->create(); ?>
+                <?php echo $pagination->create(); ?>
             </div>
         </div><!--/span-->
     </div><!--/row-->
@@ -73,5 +66,7 @@ require_once('common/sidebar.php');
 
 
 
-</div><!--/.fluid-container-->
-<?php require_once('common/footer.php'); ?>
+<?php require_once __DIR__.'/../include/footer.php'; ?>
+
+
+

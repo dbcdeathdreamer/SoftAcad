@@ -7,7 +7,7 @@ function __autoload ($classname) {
     if (strpos($classname, 'Entity')) {
         require (__DIR__.'/common/models/entities/'.$classname.'.php');
     } elseif (strpos($classname, 'Collection')) {
-        require (__DIR__.'/common/collections/'.$classname.'.php');
+        require (__DIR__ . '/common/collections/' .$classname.'.php');
     } else {
         require (__DIR__.'/common/system/'.$classname.'.php');
     }

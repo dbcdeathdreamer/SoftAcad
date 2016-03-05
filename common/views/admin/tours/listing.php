@@ -1,4 +1,5 @@
-
+<?php require_once __DIR__.'/../include/header.php'; ?>
+<?php require_once __DIR__.'/../include/sidebar.php'; ?>
 <!-- start: Content -->
 <div id="content" class="span10">
     <ul class="breadcrumb">
@@ -22,7 +23,7 @@
             </div>
             <div class="box-content">
 
-                <form action="tours.php" method="get" class="form-horizontal" enctype="multipart/form-data">
+                <form action="index.php" method="get" class="form-horizontal" enctype="multipart/form-data">
                     <fieldset>
                         <div class="control-group">
                             <label class="control-label" for="inputError">Search</label>
@@ -33,6 +34,8 @@
                         <div class="control-group">
                             <label class="control-label" for="selectError3">Results per page</label>
                             <input type="hidden" name="page" value="<?php echo $page; ?>" />
+                            <input type="hidden" name="c" value="tour" />
+                            <input type="hidden" name="m" value="index" />
                             <div class="controls">
                                 <select id="selectError3" name="perPage">
                                     <option value="0" <?php echo ($perPageSelect == 0)? "selected" : " " ?>>-- Select Order --</option>
@@ -99,8 +102,5 @@
         </div><!--/span-->
     </div><!--/row-->
 
-
-
-
 </div><!--/.fluid-container-->
-<?php require_once('common/footer.php'); ?>
+<?php require_once __DIR__.'/../include/footer.php'; ?>
