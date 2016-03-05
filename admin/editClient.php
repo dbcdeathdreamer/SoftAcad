@@ -8,16 +8,17 @@ if (!loggedIn()) {
 if(!isset($_GET['id'])) {
     header('Location: clients.php');
 }
+$clientCollection = new ClientsCollection();
+$client = $clientCollection->getOne($_GET['id']);
 
-$user = $db->get('clients', "id =".$_GET['id']);
-if(is_null($user)) {
+if(is_null($client)) {
     header('Location: clients.php');
 }
 
 $insertInfo = array(
-    'username' => $user[0]['username'],
+    'username' => $client->getUsername(),
     'password' => '',
-    'email'    => $user[0]['email'],
+    'email'    => $client->getEmail(),
 );
 
 $errors = array();
@@ -32,7 +33,11 @@ if(isset($_POST['editUser'])) {
 
     $errors = validateUserInput($insertInfo);
     if (empty($errors)) {
-        $db->update('clients', $user[0]['id'], $insertInfo);
+        $clientEntity =  new ClientsEntity();
+        $clientEntity->setId($_GET['id']);
+        $obj = $clientEntity->init($insertInfo);
+        $clientCollection->save($obj);
+
         $_SESSION['flashMessage'] = 'You have 1 affected row';
         header('Location: clients.php');
     }

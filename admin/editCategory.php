@@ -5,6 +5,58 @@ if (!loggedIn()) {
     header('Location: login.php');
 }
 
+if (!loggedIn()) {
+    header('Location: login.php');
+}
+
+if(!isset($_GET['id'])) {
+    header('Location: clients.php');
+}
+$categoryCollection = new CategoryCollection();
+$category = $categoryCollection->getOne($_GET['id']);
+
+if(is_null($category)) {
+    header('Location: categories.php');
+}
+
+$insertInfo = array(
+    'name' => $category->getName(),
+    'description'    => $category->getDescription(),
+);
+
+$errors = array();
+
+if(isset($_POST['editCategory'])) {
+
+    $insertInfo = array(
+        'name' => (isset($_POST['name']))? $_POST['name'] : '',
+        'description' => (isset($_POST['description']))? $_POST['description'] : '',
+
+    );
+
+    if (!isset($_POST['name']) || strlen($_POST['name']) < 3 || strlen($_POST['name']) > 255) {
+        $errors['name'] = 'Incorrect name';
+    }
+
+    if (!isset($_POST['description']) || strlen($_POST['description']) < 3 || strlen($_POST['description']) > 255) {
+        $errors['description'] = 'Incorrect description';
+    }
+    if (empty($errors)) {
+        $categoryEntity =  new CategoryEntity();
+        $categoryEntity->setId($_GET['id']);
+        $obj = $categoryEntity->init($insertInfo);
+        $categoryCollection->save($obj);
+
+        $_SESSION['flashMessage'] = 'You have 1 affected row';
+        header('Location: categories.php');
+    }
+
+
+} ?>
+
+
+
+<?php
 require_once('common/sidebar.php');
 
 ?>
@@ -27,7 +79,7 @@ require_once('common/sidebar.php');
                 <div class="control-group <?php echo (array_key_exists('name', $errors))? 'error' : ''; ?>">
                     <label class="control-label" for="inputError">Name</label>
                     <div class="controls">
-                        <input type="text" id="inputError" name="name" value="">
+                        <input type="text" id="inputError" name="name" value="<?php echo $insertInfo['name']; ?>" >
                         <?php if (array_key_exists('name', $errors)): ?>
                             <span class="help-inline"><?php echo $errors['name']; ?></span>
                         <?php  endif; ?>
@@ -43,7 +95,7 @@ require_once('common/sidebar.php');
                     </div>
                 </div>
                 <div class="form-actions">
-                    <input type="submit" name="createUser" value="Edit Category" class="btn btn-primary"/>
+                    <input type="submit" name="editCategory" value="Edit Category" class="btn btn-primary"/>
                 </div>
             </fieldset>
         </form>

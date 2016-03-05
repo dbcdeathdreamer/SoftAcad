@@ -9,13 +9,16 @@ if(!isset($_GET['id'])) {
     header('Location: clients.php');
 }
 
-$client = $db->get('clients', "id =".$_GET['id']);
+$clientCollection = new ClientsCollection();
 
-if(is_null($client[0])) {
+
+$client = $clientCollection->getOne($_GET['id']);
+
+if (is_null($client)) {
     header('Location: clients.php');
 }
+$clientCollection->delete($client->getId());
 
-$db->delete('clients', $client[0]['id']);
 header('Location: clients.php');
 
 ?>
