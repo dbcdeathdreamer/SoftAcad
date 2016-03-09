@@ -95,4 +95,122 @@ class TourController extends Controller {
         $this->loadView('tours/listing', $data);
     }
 
+    public function create() {
+
+    }
+
+    public function update() {
+
+    }
+
+    public function delete()
+    {
+        if (!$this->loggedIn()) {
+            header('Location: index.php?c=login&m=login');
+        }
+
+        if (!isset($_GET['id'])) {
+            header('Location: index.php?c=tour&m=index');
+        }
+
+        $tourCollection = new ToursCollection();
+        $tour = $tourCollection->getOne($_GET['id']);
+
+        if (is_null($tour)) {
+            header('Location: index.php?c=tour&m=index');
+        }
+
+        $tourCollection->delete($tour->getId());
+        header('Location: index.php?c=tour&m=index');
+    }
+
+    public function tourImages()
+    {
+        if (!$this->loggedIn()) {
+            header('Location: index.php?c=login&m=login');
+        }
+
+        $data = array();
+
+        if (!isset($_GET['id'])) {
+            header('Location: index.php?c=tour&m=index');
+        }
+
+        $tourCollection = new ToursCollection();
+        $tour = $tourCollection->getOne($_GET['id']);
+
+        if (is_null($tour)) {
+            header('Location: index.php?c=tour&m=index');
+        }
+
+        $tourImagesCollection = new ToursImagesCollection();
+        $images = $tourImagesCollection->getAll(array('tours_id' => $_GET['id']));
+
+
+        $fileUpload = new fileUpload('image');
+        $file = $fileUpload->getFilename();
+
+        $fileExtention = $fileUpload->getFileExtention();
+
+        $imageErrors = array();
+
+        if ($file != '') {
+
+            $imageErrors =  $fileUpload->validate();
+            $newName = sha1(time()).'.'.$fileExtention;
+            $insertInfo = array(
+                'tours_id' => $_GET['id'],
+                'image' => $newName
+            );
+
+            if (empty($imageErrors)) {
+
+                $imageEntity = new ToursImagesEntity();
+                $obj =  $imageEntity->init($insertInfo);
+                $tourImagesCollection->save($obj);
+
+                $fileUpload->upload('uploads/tours/'.$newName);
+                
+                header("Location: index.php?c=tour&m=tourImages&id=".$_GET['id']);
+            }
+        } else {
+
+        }
+
+        $data['imageErrors'] = $imageErrors;
+        $data['images'] = $images;
+        $data['tourId'] = $_GET['id'];
+
+        $this->loadView('tours/tourImages', $data);
+
+    }
+
+    public function deleteTourImage()
+    {
+        if (!$this->loggedIn()) {
+            header('Location: index.php?c=login&m=login');
+        }
+
+        if(!isset($_GET['id'])) {
+            header('Location: index.php?c=tour&m=index');
+        }
+
+        $imageCollection = new ToursImagesCollection();
+
+        $image = $imageCollection->getOne($_GET['id']);
+
+        if(is_null($image)) {
+            header('Location: index.php?c=tour&m=index');
+        }
+
+        $tourId = $image->getToursId();
+
+        unlink('uploads/tours/'.$image->getImage());
+        $imageCollection->delete($_GET['id']);
+
+        header("Location: index.php?c=tour&m=tourImages&id=".$tourId);
+    }
+
+
+
 }

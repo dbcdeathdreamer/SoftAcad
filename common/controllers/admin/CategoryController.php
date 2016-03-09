@@ -38,4 +38,33 @@ class CategoryController extends Controller {
 
     }
 
+    public function create() {
+
+    }
+
+    public function update() {
+
+    }
+
+    public function delete()
+    {
+        if (!$this->loggedIn()) {
+            header('Location: index.php?c=login&m=login');
+        }
+
+        if (!isset($_GET['id'])) {
+            header('Location: index.php?c=category&m=index');
+        }
+
+        $categoryCollection = new CategoryCollection();
+        $category = $categoryCollection->getOne($_GET['id']);
+
+        if (is_null($category)) {
+            header('Location: index.php?c=category&m=index');
+        }
+
+        $categoryCollection->delete($category->getId());
+        header('Location: index.php?c=category&m=index');
+    }
+
 }

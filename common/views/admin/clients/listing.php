@@ -30,7 +30,7 @@
                 }
                 ?>
 
-                <a href="addClient.php" class="btn btn-large btn-success pull-right">Create new client</a>
+                <a href="index.php?c=client&m=create" class="btn btn-large btn-success pull-right">Create new client</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -41,18 +41,15 @@
                     </thead>
                     <tbody>
                     <?php
-
-
                     foreach($users as $user): ?>
                         <tr>
                             <td><?php echo $user->getUsername(); ?></td>
                             <td class="center"><?php echo $user->getEmail(); ?></td>
                             <td class="center">
-
-                                <a class="btn btn-info" href="editClient.php?id=<?php echo $user->getId(); ?>">
+                                <a class="btn btn-info" href="index.php?c=client&m=update&id=<?php echo $user->getId(); ?>">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
-                                <a class="btn btn-danger" href="deleteClient.php?id=<?php echo $user->getId(); ?>">
+                                <a class="btn btn-danger" href="index.php?c=client&m=delete&id=<?php echo $user->getId(); ?>">
                                     <i class="halflings-icon white trash"></i>
                                 </a>
                             </td>

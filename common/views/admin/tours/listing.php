@@ -66,7 +66,7 @@
                 </form>
 
 
-                <a href="addTour.php" class="btn btn-large btn-success pull-right">Create tour</a>
+                <a href="index.php?c=tour&m=create" class="btn btn-large btn-success pull-right">Create tour</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -83,13 +83,13 @@
                             <td class="center"><?php echo $tour->getCategoryName(); ?></td>
                             <td class="center"><img width="100" height="100" src="uploads/tours/<?php echo $tour->getImage(); ?>" alt=""></td>
                             <td class="center">
-                                <a class="btn btn-success" href="tourImages.php?id=<?php echo $tour->getId();?>">
+                                <a class="btn btn-success" href="index.php?c=tour&m=tourImages&id=<?php echo $tour->getId();?>">
                                     <i class="halflings-icon white zoom-in"></i>
                                 </a>
-                                <a class="btn btn-info" href="editTour.php?id=<?php echo $tour->getId();?>">
+                                <a class="btn btn-info" href="index.php?c=tour&m=update&id=<?php echo $tour->getId();?>">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
-                                <a class="btn btn-danger" href="deleteTour.php?id=<?php echo $tour->getId();?>">
+                                <a class="btn btn-danger" href="index.php?c=tour&m=delete&id=<?php echo $tour->getId();?>">
                                     <i class="halflings-icon white trash"></i>
                                 </a>
                             </td>

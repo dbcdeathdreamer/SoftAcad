@@ -53,7 +53,7 @@ class UserController extends Controller {
             'description' => ''
         );
         $errors = array();
-        if(isset($_POST['createUser'])) {
+        if (isset($_POST['createUser'])) {
 
             $insertInfo = array(
                 'username' => (isset($_POST['username']))? $_POST['username'] : '',
@@ -78,14 +78,72 @@ class UserController extends Controller {
                 $_SESSION['flashMessage'] = 'You have 1 new user';
                 header('Location: index.php?c=user&m=index');
             }
-
-
-            }
+        }
 
         $data['insertInfo'] = $insertInfo;
         $data['errors'] = $errors;
 
         $this->loadView('users/create', $data);
+    }
+
+
+    public function update()
+    {
+        if (!$this->loggedIn()) {
+            header('Location: index.php?c=login&m=login');
+        }
+
+        if (!isset($_GET['id'])) {
+            header('Location: users.php');
+        }
+
+        $userCollection = new UserCollection();
+        $user = $userCollection->getOne($_GET['id']);
+
+        if (is_null($user)) {
+            header('Location: users.php');
+        }
+
+        $insertInfo = array(
+            'username' => $user->getUsername(),
+            'password' => '',
+            'email'    => $user->getEmail(),
+            'description' => $user->getDescription()
+        );
+
+        $errors = array();
+
+        if (isset($_POST['editUser'])) {
+
+            $insertInfo = array(
+                'username'    => (isset($_POST['username'])) ? $_POST['username'] : '',
+                'password'    => (isset($_POST['password'])) ? $_POST['password'] : '',
+                'email'       => (isset($_POST['email'])) ? $_POST['email'] : '',
+                'description' => (isset($_POST['description'])) ? $_POST['description'] : ''
+            );
+
+            $errors = $this->validateUserInput($insertInfo);
+
+            if (empty($errors)) {
+                $entity = new UsersEntity();
+                $entity->setId($_GET['id']);
+                $entity->setUsername($insertInfo['username']);
+                $entity->setPassword($insertInfo['password']);
+                $entity->setEmail($insertInfo['email']);
+                $entity->setDescription($insertInfo['description']);
+
+                $userCollection->save($entity);
+
+                $_SESSION['flashMessage'] = 'You have 1 affected row';
+                header('Location: index.php?c=user&m=index');
+            }
+        }
+
+
+        $data['insertInfo'] = $insertInfo;
+        $data['errors'] = $errors;
+
+        $this->loadView('users/update', $data);
     }
 
     public function delete()
@@ -94,14 +152,14 @@ class UserController extends Controller {
             header('Location: index.php?c=login&m=login');
         }
 
-        if(!isset($_GET['id'])) {
+        if (!isset($_GET['id'])) {
             header('Location: index.php?c=user&m=index');
         }
 
         $userCollection = new UserCollection();
         $user = $userCollection->getOne($_GET['id']);
 
-        if(is_null($user)) {
+        if (is_null($user)) {
             header('Location: index.php?c=user&m=index');
         }
 
@@ -113,7 +171,7 @@ class UserController extends Controller {
     {
         $errors = array();
 
-        if(!isset($input['username']) || strlen(trim($input['username'])) < 3 || strlen(trim($input['username'])) > 255) {
+        if (!isset($input['username']) || strlen(trim($input['username'])) < 3 || strlen(trim($input['username'])) > 255) {
             $errors['username'] = 'Incorrect username';
         }
 

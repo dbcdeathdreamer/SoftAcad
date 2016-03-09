@@ -36,4 +36,32 @@ class ClientController extends Controller {
 
     }
 
+    public function create() {
+
+    }
+
+    public function update() {
+
+    }
+
+    public function delete()
+    {
+        if (!$this->loggedIn()) {
+            header('Location: index.php?c=login&m=login');
+        }
+
+        if (!isset($_GET['id'])) {
+            header('Location: index.php?c=client&m=index');
+        }
+
+        $clientCollection = new ClientsCollection();
+        $client = $clientCollection->getOne($_GET['id']);
+
+        if (is_null($client)) {
+            header('Location: index.php?c=client&m=index');
+        }
+
+        $clientCollection->delete($client->getId());
+        header('Location: index.php?c=client&m=index');
+    }
 }

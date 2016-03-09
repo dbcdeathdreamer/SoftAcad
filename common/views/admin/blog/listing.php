@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="box-content">
-                <a href="addBlogPost.php" class="btn btn-large btn-success pull-right">Create blog post</a>
+                <a href="index.php?c=blog&m=create" class="btn btn-large btn-success pull-right">Create blog post</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -44,10 +44,13 @@
                             <td class="center"><img width="100" height="100" src="uploads/tours/<?php echo $blogPost->getImage(); ?>" alt=""></td>
                             <td class="center"><?php echo $blogPost->getTitle(); ?></td>
                             <td class="center">
-                                <a class="btn btn-info" href="#">
+                                <a class="btn btn-success" href="index.php?c=blog&m=blogImages&id=<?php echo $blogPost->getId();?>">
+                                    <i class="halflings-icon white zoom-in"></i>
+                                </a>
+                                <a class="btn btn-info" href="index.php?c=blog&m=update&id=<?php echo $blogPost->getId(); ?>">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
-                                <a class="btn btn-danger" href="#">
+                                <a class="btn btn-danger" href="index.php?c=blog&m=delete&id=<?php echo $blogPost->getId(); ?>">
                                     <i class="halflings-icon white trash"></i>
                                 </a>
                             </td>
