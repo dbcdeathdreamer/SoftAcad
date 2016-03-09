@@ -36,8 +36,55 @@ class BlogController extends Controller {
         $this->loadView('blog/listing', $data);
     }
 
-    public function create() {
+    public function create()
+    {
+        $data = array();
 
+        $insertInfo = array(
+            'title'       => '',
+            'image'       => '',
+            'description' => '',
+
+        );
+        $errors = array();
+
+        if (isset($_POST['addBlogPost'])) {
+            $fileUpload = new fileUpload('image');
+            $file = $fileUpload->getFilename();
+            $fileExtention = $fileUpload->getFileExtention();
+
+            $imageErrors = array();
+            if ($file != '') {
+                $imageErrors = $fileUpload->validate();
+                $newName = sha1(time()) . '.' . $fileExtention;
+            } else {
+                $newName = '';
+            }
+
+            $insertInfo = array(
+                'title'       => $_POST['title'],
+                'image'       => $newName,
+                'description' => $_POST['description'],
+
+            );
+
+            if (empty($imageErrors) && empty($errors)) {
+                $blogPostEntity = new BlogEntity();
+                $obj = $blogPostEntity->init($insertInfo);
+
+                $blogPostCollection = new BlogCollection();
+                $blogPostCollection->save($obj);
+
+                $fileUpload->upload('uploads/tours/' . $newName);
+
+                header("Location: index.php?c=blog&m=index");
+            }
+        }
+
+        $data['insertInfo'] = $insertInfo;
+        $data['errors'] = $errors;
+
+        $this->loadView('blog/create', $data);
     }
 
     public function update() {

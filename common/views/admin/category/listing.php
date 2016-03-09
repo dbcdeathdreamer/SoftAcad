@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="box-content">
-                <a href="index.php?c=category" class="btn btn-large btn-success pull-right">Create category</a>
+                <a href="index.php?c=category&m=create" class="btn btn-large btn-success pull-right">Create category</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>

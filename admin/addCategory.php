@@ -8,37 +8,7 @@ if (!loggedIn()) {
 
 ?>
 <?php
-$insertInfo = array(
-    'name' => '',
-    'description' => '',
-);
-$errors = array();
 
-if (isset($_POST['createCategory'])) {
-    if (!isset($_POST['name']) || strlen($_POST['name']) < 3 || strlen($_POST['name']) > 255) {
-        $errors['name'] = 'Incorrect name';
-    }
-
-    if (!isset($_POST['description']) || strlen($_POST['description']) < 3 || strlen($_POST['description']) > 255) {
-        $errors['description'] = 'Incorrect description';
-    }
-
-    if (empty($errors)) {
-        $insertInfo['name'] = $_POST['name'];
-        $insertInfo['description'] = $_POST['description'];
-
-        $table = 'categories';
-
-        $categoryEntity = new CategoryEntity();
-        $obj = $categoryEntity->init($insertInfo);
-
-        $categoryCollection = new CategoryCollection();
-        $categoryCollection->save($obj);
-
-        header('Location: categories.php');
-    }
-
-}
 
 require_once('common/sidebar.php');
 ?>

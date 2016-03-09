@@ -37,7 +37,42 @@ class ClientController extends Controller {
     }
 
     public function create() {
+        $data = array();
 
+        $clientCollection = new ClientsCollection();
+
+        $insertInfo = array(
+            'username' => '',
+            'password' => '',
+            'email'    => '',
+        );
+        $errors = array();
+        if(isset($_POST['createUser'])) {
+
+            $insertInfo = array(
+                'username' => (isset($_POST['username']))? $_POST['username'] : '',
+                'password' => (isset($_POST['password']))? $_POST['password'] : '',
+                'email'    => (isset($_POST['email']))? $_POST['email'] : '',
+            );
+
+            $errors = $this->validateUserInput($insertInfo);
+
+            if (empty($errors)) {
+                $clientEntity = new ClientsEntity();
+
+                $obj = $clientEntity->init($insertInfo);
+
+                $clientCollection->save($obj);
+
+                $_SESSION['flashMessage'] = 'You have 1 new user';
+                header('Location: index.php?c=client&m=index');
+            }
+        }
+
+        $data['errors'] = $errors;
+        $data['insertInfo'] = $insertInfo;
+
+        $this->loadView('clients/create', $data);
     }
 
     public function update() {
@@ -63,5 +98,16 @@ class ClientController extends Controller {
 
         $clientCollection->delete($client->getId());
         header('Location: index.php?c=client&m=index');
+    }
+
+    private function validateUserInput($input)
+    {
+        $errors = array();
+
+        if (!isset($input['username']) || strlen(trim($input['username'])) < 3 || strlen(trim($input['username'])) > 255) {
+            $errors['username'] = 'Incorrect username';
+        }
+
+        return $errors;
     }
 }
