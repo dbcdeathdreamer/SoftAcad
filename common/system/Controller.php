@@ -21,6 +21,11 @@ class Controller {
         return false;
     }
 
+    protected function loadFrontView($view, $data = array()) {
+        extract($data);
+        require(__DIR__.'/../views/frontend/'.$view.'.php');
+    }
+
     protected function loadView($view, $data = array()) {
         extract($data);
         require(__DIR__.'/../views/admin/'.$view.'.php');

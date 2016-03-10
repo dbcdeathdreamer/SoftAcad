@@ -96,6 +96,62 @@ class TourController extends Controller {
     }
 
     public function create() {
+        $data = array();
+
+        $categoryCollection = new CategoryCollection();
+        $categories = $categoryCollection->getAll();
+
+        $insertInfo = array(
+            'name' => '',
+            'image' => '',
+            'category_id' => '',
+            'description' => '',
+
+        );
+        $errors = array();
+
+        if (isset($_POST['createTour'])) {
+
+
+            $fileUpload = new fileUpload('image');
+            $file = $fileUpload->getFilename();
+            $fileExtention = $fileUpload->getFileExtention();
+
+            $imageErrors = array();
+            if ($file != '') {
+                $imageErrors =  $fileUpload->validate();
+                $newName = sha1(time()).'.'.$fileExtention;
+            } else {
+                $newName = '';
+            }
+
+            $insertInfo = array(
+                'name' => $_POST['name'],
+                'image' => $newName,
+                'category_id' => $_POST['categories'],
+                'description' => $_POST['description'],
+
+            );
+
+            if (empty($imageErrors) && empty($errors)) {
+
+                $toursCollection = new ToursCollection();
+                $toursEntity = new ToursEntity();
+                $obj = $toursEntity->init($insertInfo);
+
+                $toursCollection->save($obj);
+
+                $fileUpload->upload('uploads/tours/'.$newName);
+
+                header("Location: index.php?c=tour&m=index");
+            }
+        }
+
+        $data['errors'] = $errors;
+        $data['categories'] = $categories;
+        $data['insertInfo'] = $insertInfo;
+
+        $this->loadView('tours/create', $data);
 
     }
 

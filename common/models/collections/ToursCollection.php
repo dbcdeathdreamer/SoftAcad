@@ -7,7 +7,7 @@ class ToursCollection extends Collection {
 
 
 
-    public function getAll($where = array(), $limit = -1, $offset = 0 , $orderBy = array('id', 'DESC'), $like = array() )
+    public function getAll($where = array(), $limit = -1, $offset = 0 , $orderBy = array('id', 'DESC'), $like = array(), $rand = 0 )
     {
         $sql = " SELECT
           t.id, t.name, t.image, t.category_id, t.description,
@@ -26,7 +26,11 @@ class ToursCollection extends Collection {
             $sql.= "AND {$key} = '{$value}' ";
         }
 
-        $sql.= " ORDER BY {$orderBy[0]} {$orderBy[1]} ";
+        if ($rand == 1) {
+            $sql.= " ORDER BY RAND() ";
+        } else {
+            $sql.= " ORDER BY {$orderBy[0]} {$orderBy[1]} ";
+        }
 
         if ($limit > -1) {
             $sql.= "Limit {$limit}";

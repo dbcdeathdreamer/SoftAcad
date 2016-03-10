@@ -34,7 +34,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && strlen($_POST['use
                 <small>Subheading</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="index.php">Home</a>
+                <li><a href="index1.php">Home</a>
                 </li>
                 <li class="active">Login</li>
             </ol>

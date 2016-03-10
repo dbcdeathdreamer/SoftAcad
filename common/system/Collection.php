@@ -20,13 +20,16 @@ abstract class Collection {
         
         $row = $this->db->translate($result);
 
+        if($row === null) {
+           return;
+        }
         $entity = new $this->entity;
         $oEntity = $entity->init($row);
 
         return $oEntity;
     }
     
-    public function getAll($where = array(), $limit = -1, $offset = 0)
+    public function getAll($where = array(), $limit = -1, $offset = 0, $orderBy = array('id', 'DESC'), $rand = 0)
     {
         $sql = " SELECT * FROM {$this->table} ";
 
@@ -35,6 +38,13 @@ abstract class Collection {
         foreach ($where as $key => $value) {
             $sql.= "AND {$key} = '{$value}' ";
         }
+
+        if ($rand == 1) {
+            $sql.= " ORDER BY RAND() ";
+        } else {
+            $sql.= " ORDER BY {$orderBy[0]} {$orderBy[1]} ";
+        }
+
 
         if ($limit > -1) {
             $sql.= "Limit {$limit}";
