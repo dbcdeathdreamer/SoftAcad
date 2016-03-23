@@ -11,6 +11,7 @@
                     <li><a href="index.php?c=tour&m=index"><i class="icon-sign-blank"></i><span class="hidden-tablet"> Tours</span></a></li>
                     <li><a href="index.php?c=blog&m=index"><i class="icon-book"></i><span class="hidden-tablet"> Blog posts</span></a></li>
                     <li><a href="index.php?c=client&m=index"><i class="icon-user"></i><span class="hidden-tablet"> Clients</span></a></li>
+                    <li><a href="index.php?c=slider&m=index"><i class="icon-user"></i><span class="hidden-tablet"> Slider </span></a></li>
                 </ul>
             </div>
         </div>

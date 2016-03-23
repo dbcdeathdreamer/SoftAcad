@@ -9,7 +9,29 @@ class ToursEntity extends Entity
     private $category_id;
     private $description;
     private $categoryName;
+    private $price;
+    private $quantity;
 
+
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
 
     public function setCategoryName($name) {
         $this->categoryName = $name;
