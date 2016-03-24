@@ -14,6 +14,34 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> <span id="shoppingNumber"><?php echo count($_SESSION['basket']) ?></span> - Items<span class="caret"></span></a>
+                    <ul id="shoppingBasket" class="dropdown-menu dropdown-cart" role="menu">
+                       
+                       <?php if(count($_SESSION['basket']) > 0 ): ?>
+                           <?php foreach($_SESSION['basket'] as $element): ?>
+                                <li>
+                                      <span class="item">
+                                        <span class="item-left">
+                                            <img src="http://lorempixel.com/50/50/" alt="" />
+                                            <span class="item-info">
+                                                <span><?php echo $element['id'];  ?></span>
+                                                <span><?php echo $element['quantity']; ?></span>
+                                            </span>
+                                        </span>
+                                        <span class="item-right">
+                                            <button class="btn btn-xs btn-danger pull-right">x</button>
+                                        </span>
+                                    </span>
+                                </li>
+                               <?php endforeach; ?>
+                        <?php endif; ?>
+                        <li class="divider"></li>
+                        <li><a class="text-center" href="">View Cart</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Tours Categories <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -45,6 +73,7 @@
                 </li>
 
             </ul>
+
         </div>
         <!-- /.navbar-collapse -->
     </div>

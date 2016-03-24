@@ -83,6 +83,7 @@
                         <a href="portfolio-item.html"><?php echo $randomTour->getName(); ?></a>
                     </h3>
                     <p><?php echo $randomTour->getDescription(); ?></p>
+                    <button data-id="<?php echo $randomTour->getId(); ?>" class="btn btn-danger basket"> Buy </button>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -180,4 +181,42 @@
 <!-- /.container -->
 
 <?php require_once __DIR__.'/include/footer.php'; ?>
+<script>
+    $( document ).ready(function() {
+        $(".basket").on('click', function(){
+            var buttonId = $(this).data('id');
+            var el = $(this);
+            $.ajax({
+                    method: "POST",
+                    url: "index.php?c=dashboard&m=addToBasket",
+                    data: { tourId: buttonId, quantity: 1 }
+                })
+                .done(function( msg ) {
+                    var message =  JSON.parse(msg);
+                    console.log(message.basketCount);
+                    console.log( "Data Saved: " + msg );
+                    $('#shoppingNumber').html(msg);
+
+                    $("#shoppingBasket").prepend('<li>\
+                        <span class="item">\
+                        <span class="item-left">\
+                        <img src="http://lorempixel.com/50/50/" alt="" />\
+                        <span class="item-info">\
+                        <span>Item name</span>\
+                        <span>23$</span>\
+                        </span>\
+                        </span>\
+                        <span class="item-right">\
+                            <button class="btn btn-xs btn-danger pull-right">x</button>\
+                            </span>\
+                            </span>\
+                            </li>');
+                });
+        });
+
+
+
+    });
+
+</script>
 

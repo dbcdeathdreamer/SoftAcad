@@ -31,6 +31,7 @@
                 ?>
 
                 <a href="index.php?c=slider&m=create" class="btn btn-large btn-success pull-right">Create new slide</a>
+                <a href="index.php?c=slider&m=reorder" class="btn btn-large btn-success pull-right">Reorder slides</a>
                 <table class="table table-striped">
                     <thead>
                     <tr>

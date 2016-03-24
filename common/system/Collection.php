@@ -97,17 +97,18 @@ abstract class Collection {
 
     public function update($id, $dataInput)
     {
-        $sql =  "UPDATE {$this->table} SET ";
+        $sql =  "UPDATE {$this->table} SET  ";
         $numItems = count($dataInput);
         $i = 0;
+
         foreach ($dataInput as $key => $value) {
             if (++$i == $numItems) {
-                $sql.="{$key}='{$value}' ";
+                $sql.=" `{$key}`='{$value}' ";
             } else {
-                $sql.="{$key}='{$value}', ";
+                $sql.=" `{$key}`='{$value}', ";
             }
         }
-        $sql .= "WHERE id = {$id}";
+        $sql .= "WHERE `id` = {$id}";
 
         $result = $this->db->query($sql);
 

@@ -77,7 +77,7 @@ class SliderController extends Controller {
                 $obj = $toursEntity->init($insertInfo);
 
                 $toursCollection->save($obj);
-var_dump( $toursCollection->save($obj)); die;
+
                 $fileUpload->upload('uploads/tours/'.$newName);
 
                 header("Location: index.php?c=slider&m=index");
@@ -92,6 +92,30 @@ var_dump( $toursCollection->save($obj)); die;
 
     public function update() {
 
+    }
+
+    public function reorder() {
+        $data = array();
+
+        $sliderCollection = new SliderCollection();
+        $slides = $sliderCollection->getAll(array(), -1, 0, array('`order` ', 'ASC'));
+
+
+        if (isset($_POST['reorder'])) {
+          $postSlides = $_POST['slides'];
+
+          foreach ($postSlides as $key => $slide) {
+             $sliderCollection->update($slide, array('order' => $key));
+          }
+
+            header("Location: index.php?c=slider&m=reorder");
+        }
+
+
+
+        $data['slides'] = $slides;
+
+        $this->loadView('slider/reorder', $data);
     }
 
     public function delete()

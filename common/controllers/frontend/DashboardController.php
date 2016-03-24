@@ -22,6 +22,23 @@ public function index()
 
 }
 
+public function addToBasket(){
 
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_SESSION['basket'][] = array(
+            'id' => $_POST['tourId'],
+            'quantity' => $_POST['quantity']
+        );
+    }
+
+    $result = array(
+        'quantity' => $_POST['quantity'],
+        'id'       => $_POST['tourId'],
+        'basketCount' => count($_SESSION['basket'])
+    );
+    echo json_encode($result);
+    die;
+}
 
 }
